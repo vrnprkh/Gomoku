@@ -2,7 +2,7 @@
 ## Prerequisites
 -------------
 - Active Azure subscription
-- Azure Database for MySQL server: A MySQL server needs to be set up in your Azure portal.
+- Azure Database for MySQL server: A MySQL server needs to be set up in your Azure portal
 - Python & required libraries (`mysql-connector-python`)
 
 # Step 1: Creating the Sample Database
