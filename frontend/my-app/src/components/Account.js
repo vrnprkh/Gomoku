@@ -8,9 +8,9 @@ const Account = () => {
         rank: "Gold",
         profilePicture: "https://via.placeholder.com/150", // Link to a placeholder image
         matchHistory: [
-            { opponent: "PlayerTwo", result: "Win" },
-            { opponent: "PlayerThree", result: "Loss" },
-            { opponent: "PlayerFour", result: "Win" }
+            { opponent: "PlayerTwo", result: "Win 🏆" },
+            { opponent: "PlayerThree", result: "Loss ❌" },
+            { opponent: "PlayerFour", result: "Win 🏆" }
         ]
     };
 
