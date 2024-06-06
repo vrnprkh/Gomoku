@@ -6,8 +6,8 @@ function Gameboard() {
   const [currentPlayer, setCurrentPlayer] = useState('player1');
 
   const players = {
-    player1: 'X',
-    player2: 'O'
+    player1: '⚪',
+    player2: '⚫'
   };
 
   const handleCellClick = (row, col) => {
