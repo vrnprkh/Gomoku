@@ -28,7 +28,7 @@ function Gameboard() {
           <div key={index} className="game-row">
             {row.map((cell, cellIndex) => (
               <div key={cellIndex} className="cell" onClick={() => handleCellClick(index, cellIndex)}>
-                {cell || '-'}
+                {cell || ''}
               </div>
             ))}
           </div>
