@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 function Header() {
   return (
     <header className="header">
-      <Link to="/"><button>Play</button></Link>
-      <Link to="/about"><button>About</button></Link>
-      <Link to="/account"><button>Account</button></Link>
+      <span className="title">Gomoku</span>
+      <div className="buttons">
+        <Link to="/"><button>Play</button></Link>
+        <Link to="/about"><button>About</button></Link>
+        <Link to="/account"><button>Account</button></Link>
+      </div>
     </header>
   );
 }
