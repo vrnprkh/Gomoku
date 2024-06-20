@@ -42,6 +42,7 @@ if __name__ == "__main__":
     cursor = conn.cursor()
 
     directories = [
+        os.path.join(base_dir, "r6"),
         os.path.join(base_dir, "r8"),
         os.path.join(base_dir, "r9")
     ]
