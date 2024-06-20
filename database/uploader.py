@@ -27,7 +27,7 @@ if __name__ == "__main__":
     dirname = os.path.dirname(__file__)
     queryPath = os.path.join(dirname, "sql/upload.sql")
     
-    
+
 
     # users
     userInfoPath = os.path.join(dirname, "sampleData/userData.txt")
@@ -53,6 +53,10 @@ if __name__ == "__main__":
     query = load_data_into_table("UserStats", userStatsPath, queryPath)
     cursor.execute(query)
 
+    lobbiesPath = os.path.join(dirname, "sampleData/lobbies.txt")
+    cursor.execute("DELETE FROM `LOBBIES`;")
+    query = load_data_into_table("Lobbies", lobbiesPath, queryPath)
+    cursor.execute(query)
 
     conn.commit()
     cursor.close()
