@@ -1,0 +1,2 @@
+gid, uid1, uid2, open
+50, 0, \N, TRUE
