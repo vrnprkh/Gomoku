@@ -1,3 +1,4 @@
+--player with uid @player_id can search for their friends with username similar to @friend_name--
 SELECT
     CASE
         WHEN f.uid1 = @player_id THEN f.uid2
@@ -14,6 +15,7 @@ WHERE
     OR (f.uid2 = @player_id AND u1.username REGEXP @friend_name);
 
 
+--player with uid @player_id can search for other users with username similar to @user_name--
 SELECT uid
 FROM User
 WHERE username REGEXP @user_name;
