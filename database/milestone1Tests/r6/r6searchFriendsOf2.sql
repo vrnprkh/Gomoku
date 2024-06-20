@@ -2,7 +2,7 @@
 SELECT l.gid, l.uid1
 FROM Lobbies l
 JOIN (
-    SELECT
+    SELECT DISTINCT
         CASE
             WHEN f.uid1 = 2 THEN f.uid2
             WHEN f.uid2 = 2 THEN f.uid1
