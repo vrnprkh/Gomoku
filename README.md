@@ -1,4 +1,9 @@
 # Gomoku⚪⚫
+## Current UI
+![Gameplaty](/assets/gamePlay.png)
+![About](/assets/about.png)
+![Profile](/assets/profile.png)
+
 ## Prerequisites
 -------------
 - Active Azure subscription
