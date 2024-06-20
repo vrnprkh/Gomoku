@@ -1,4 +1,3 @@
---* win rate, assumed that it will run after total stats are updated 
 SELECT 
     U.uid,
     U.username,
