@@ -11,11 +11,11 @@ SELECT
     END AS friend_username
     
 FROM
-    test_database.Friends f
+    Friends f
 JOIN
-    test_database.Users u1 ON f.uid1 = u1.uid
+    Users u1 ON f.uid1 = u1.uid
 JOIN 
-    test_database.Users u2 ON f.uid2 = u2.uid
+    Users u2 ON f.uid2 = u2.uid
 WHERE 
     (f.uid1 = @player_id AND u2.username REGEXP @friend_name)
     OR (f.uid2 = @player_id AND u1.username REGEXP @friend_name);
