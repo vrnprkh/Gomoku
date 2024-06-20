@@ -47,9 +47,9 @@ CREATE TABLE `Lobbies` (
   `uid1` int,
   `uid2` int,
   `open` bool,
-  FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`),
-  FOREIGN KEY (`uid1`) REFERENCES `Users` (`uid`),
-  FOREIGN KEY (`uid2`) REFERENCES `Users` (`uid`)
+  FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`) ON DELETE CASCADE,
+  FOREIGN KEY (`uid1`) REFERENCES `Users` (`uid`) ON DELETE CASCADE,
+  FOREIGN KEY (`uid2`) REFERENCES `Users` (`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE `Friends` (
