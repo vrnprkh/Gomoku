@@ -1,0 +1,4 @@
+LOAD DATA LOCAL INFILE '{file_path}'
+INTO TABLE `{table_name}`
+FIELDS TERMINATED BY ','
+IGNORE 1 LINES;

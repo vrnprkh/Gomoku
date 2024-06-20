@@ -30,7 +30,9 @@ def createMany(numUsers, numGames):
 
     # create userStat table for each user
     userStats = createUserStats(gameData, uids)
-
+    for e in userStats:
+        userStats[e][2] = time.strftime("%H:%M:%S", time.gmtime(userStats[e][2]))
+        pass
 
     # fixing relative path issues
     dirname = os.path.dirname(__file__)
@@ -42,7 +44,7 @@ def createMany(numUsers, numGames):
         f.write(
             "uid, username, password\n"
             +
-            "\n".join(', '.join(map(str, [uid, f"username{uid}", f"password{uid}"])) for uid in uids) + "\n"
+            "\n".join(', '.join(map(str, [uid, f"\"username{uid}\"", f"\"password{uid}\""])) for uid in uids) + "\n"
         )
     f3name = os.path.join(dirname, "results/friends.txt")
     with open(f3name, "w") as f:
