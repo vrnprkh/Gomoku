@@ -6,16 +6,25 @@
 SELECT 
     U.uid,
     U.username,
-    IFNULL((US.total_play_time / 60) / US.total_games_played, 0) AS avg_play_time_minutes
+    IFNULL(
+        TIME_TO_SEC(US.total_play_time) / 60 / US.total_games_played, 
+        0
+    ) AS avg_play_time_minutes
 FROM Users U
 LEFT JOIN UserStats US ON U.uid = US.uid;
 
 --* win rate -- assumed that it will run after total stats are updated 
-UPDATE UserStats
-SET win_rate = IF(total_games_played = 0, 0, (wins / total_games_played) * 100)
-WHERE uid IN (SELECT uid FROM Users);
+SELECT 
+    U.uid,
+    U.username,
+    IF(US.total_games_played = 0, 0, (US.wins / US.total_games_played) * 100) AS win_rate
+FROM Users U
+LEFT JOIN UserStats US ON U.uid = US.uid;
 
 --* loss rate -- assumed that it will run after total stats are updated 
-UPDATE UserStats
-SET loss_rate = IF(total_games_played = 0, 0, (losses / total_games_played) * 100)
-WHERE uid IN (SELECT uid FROM Users);
+SELECT 
+    U.uid,
+    U.username,
+    IF(US.total_games_played = 0, 0, (US.losses / US.total_games_played) * 100) AS loss_rate
+FROM Users U
+LEFT JOIN UserStats US ON U.uid = US.uid;
