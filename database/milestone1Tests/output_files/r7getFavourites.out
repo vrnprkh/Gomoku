@@ -1,0 +1,4 @@
+final_game_state	player1	player2	result
+ XOOOO...X....X.X.OXOOOX...O..OX..O.O...X.........OXX...O....XX.O........X..XO......X.....OXX....X.XOOX......XX.X.X..OX......O.O.XOOO...O.X....XX......O.X..X.X.O...XOO...OX...X.X....X.OX.X.OXOXO....O.O.....X.OO...O...X..XO.OO.	 "username0"	 "username5"	0
+ OO.X.OX......O..O....X.....X........XOO......X....XO....O..O..X.X..X..O...X.O.X.O..O....X...X.O..OXX....X.....X....O...OX...OOOX........O.O...XO....X..X..O..X....OX..X...O........OX......X..........O......X....X....OX...X..O.	 "username1"	 "username5"	0
+ ...OO.X..XX...X.X...X...........O.X...OOO.XX....OX....O.XOO.....OX..O.O..O.....X..X..X.O.O.O.XX.X.X.O.O.O.....XX.X.X.X.O.O.XOO.X.....X....X.OO.....XXOXX.XOOX.OX.X..XXOOOO.X...X...XX.O.OO....O...OOO...XO.OO.O...X.....X.O..O.XX	 "username5"	 "username9"	1
