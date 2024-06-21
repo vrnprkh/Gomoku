@@ -16,8 +16,4 @@
 
 2. Create a MySQL Database, named "<database name>".
 
-3. Set Up Database Table by using a MySQL client tool or through the Azure portal’s built-in query editor.
-   Code:
-   ```
-   Insert the code here!
-   ```
+3. Set Up Database Tables by using create.sql (under database/sql/create.sql) This creates all the tables with the current constraints needed. To load the data into the tables, run the uploader.py script under database/. This will fill the tables with all the data in sampleData directory. To generate new data, use the dataGenerator.py script, which will create randomly generated data, for n users. Currently the data generated includes: Users, Completed Games (Games Table), Friends, and userStats. Lobbies are manually created in sampleData to test a feature. As of now, this is the data needed for our sample features and tests, the remaining tables will be populated for future milestones.
