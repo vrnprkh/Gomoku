@@ -1,0 +1,104 @@
+varunparikh@Varuns-MacBook-Pro sampleApp % python3.11 app.py
+Input command  (h for help): 
+h
+Commands
+                    h: help
+                    q: quit
+                    u: set active user
+                    g: get games for user
+                    f: get favourite games for user
+                    sf: set favourite games for user
+                    rf: remove favourite game for user
+                    l: display leaderboard
+                    o: display open lobbies
+                    fo: display open lobbies of friends
+                  
+Input command  (h for help): 
+u
+Input uid:0
+Input command  (h for help): 
+g
+(' ..X...O.O...XX..X..OO..OO.X.OO.XO.O..OO.OO.OXOXX.X.X.X..XXXO.X...X.X...X.OX..O...O...OOX...X.X.XOOO.O.O...X.O..X..O.XO.O.OOXOXXX.OO..XX.O....OO.OO.X.XOXX.X..OX.X...XXXX.X.O..XO....X.OOXO.O.O.OX....X.X.X...XXOOX.O..XOOX.X....O', ' "username0"', ' "username1"', 0)
+(' .XO....OOXO....OOXO.X....X..XO.......O.......X.O..O......X...O.X.XOOXO....O..X.O....X.O.O............X.XXX.O...O.....X.X..X..X.O..XXX.O.XO..XX.OO....OOO..O.OX.XX.O.X.XOX.OOOXXX.O.X.O.X.....X...OOX...OXX..O.O.....X.XXO.O..XX.O', ' "username0"', ' "username1"', 0)
+(' .OOOOO.O...XOXXOXO..O.XO.....O.X..OXXXX..O..XOOXOOO...OXOX.XXX..X..O.X.O..XXX.XXOXXXO..XX..O....X.O.XO.X.O.X.X.OOOO.O.O.....O.O.X...OO.X.X.OXOX.OX.......XX...X.XX.X.OX..X.OX.XXOOXXOXO..O...OOO.XOO..X.OOOXXXX..X..OO..O.OO.XX.O', ' "username0"', ' "username2"', 1)
+(' X...OXXOX.X...X....XO.OXX.O..OOOXXOX..XX..XX.X.O.O.OO.....O.X.XO.OO.....O...X.OO..XX..O..X.O...O.OXXX.OX..XO........O....O..X.XO.O.O..XOX..OO...X..O....OOOX..XO.XXX.......XOO...O..X..O....X.X.XOX..XO..X....O...OOX.......X.X.O', ' "username0"', ' "username2"', 1)
+(' O.O..O.XOO..OX.O.XOXOX.....OO..X..X.XOXX....OO....OOXO.XOOOXXXX..OXO..O..OOX......OXX.....OXOXOOO...O..XO.X..X.X.O.OX.X.O.OX..OO....XXXX..OXXX.XXX...OOXOO..X.XXOXX.OO..O..X.O.XOX.OXXXX.X.X.OX...OX..O.XOO..OXOOOX.X.O..XXX.OO..', ' "username0"', ' "username3"', 1)
+(' .O.O.XOX...X...X...XXX.XX.O..OOX.O..XX......X.XOXOXO.OX.O.OO.X..OXOXXO.XX..O..X.XO.X..O.XX.O.....X.O.......OX.O.XX....XO..O...O..O...OX.O.X....X.O...O.....OX.OX..XOX.OXOO.O.O.OOO..OX.OXXXOOO.O.X.XXO.X.OXXX.O..X.O..XO.....X.O.', ' "username0"', ' "username3"', 1)
+(' X....XX.X.XXXXX...X.O...OX..X.O..X...O..OX....X.O..OXXXOOXO...OO..O.O.OO.OXO.X.O.O.OXX.X..O.O..X.O...O.....X...X.OO.O...XXOX.O.O..X......XO......O.O.O...O.....O...O....XOO.X..O..X.X........X.X.O.......XX.X.XX....OOX.X.O.XX..O', ' "username0"', ' "username4"', 0)
+(' X..........O.O.X....OOXO...X...OXXX....X...OOO..XX.X..O..O..X.......OX..OOXX.......XO.....X.........X.XX.X.........X.O.......OO..O.X...X....OOX..X.OX.............O....X.......O.O..O....X....OXO..O....X......OX..O.XO..O.......', ' "username0"', ' "username4"', 1)
+(' X..XO.OO...XXX.XX.OXX.XO.OOO...X..OOXOO....O..X....OX..OOO...X...OX....OOO..O.X..O.XOO....OX.O.X....O..XX..X.OXXXXO.O...O.OOO.O.XXXXXOX.O...O.X.O.O.X.X.X.X.O....OXX.X....X.XO.X.O.X.O..O..XXO...XXXX..O.X.O.OO..XXOXO..X...O....', ' "username0"', ' "username5"', 0)
+(' XOOOO...X....X.X.OXOOOX...O..OX..O.O...X.........OXX...O....XX.O........X..XO......X.....OXX....X.XOOX......XX.X.X..OX......O.O.XOOO...O.X....XX......O.X..X.X.O...XOO...OX...X.X....X.OX.X.OXOXO....O.O.....X.OO...O...X..XO.OO.', ' "username0"', ' "username5"', 0)
+(' O......OXX.OO..XO...XO.X......X........O.O.X...O....O.O.....XO....XX.O..XXO...X..X.....XO..X..O.XOOO.......OOO..OXO..OX.XX....X.X......O..X..X...X.OOX......XX...OOXOX...O.XX.O.X....OO...X...X.X......OXO...X.OX..O...O.X..XX.OO', ' "username0"', ' "username6"', 0)
+(' .XOX..XOOXXXOOO.XO.XO..X.O...X...O.OO..O....O..O.OXX.XX.O...XXX..XXXX..X..X.....XOX....O..OO.OO.XOXOO....O.XO...XOX.X.OO.OXX.X....OOOXXO.OXOOO..O.O.XXOXX.OXXO.XO.O....XOXOO....X..OOOOX.XX.OOXXOXX..XX.X....O...XXO..O.O..XX..X.', ' "username0"', ' "username6"', 0)
+(' OO.X.OXOXOX.O.OOXX....OXOX.OX.XXX..XX.XOOOO.XO.OO.OOXXX.XOX.X.XXO.XOOOX..XOOOOO.XOX...O.XOOXXOOO..XX.OX....OXX.X.XXXX.XOO...XX..OO.OO.XX.XX.OO.XXO.OOO..OOOX...XXOOX.XO.X..XOOXX.OO..OX.X.O.O.O.O.XX..X.XO.X..X.OOXXX.OO..O..OXX.', ' "username0"', ' "username7"', 1)
+(' X..O.O.O.OX.O..X.O.XXX.O....X.XOOXXOXO.O..XX.XX....O....XX....OO.....XX.XXOOXO.XO...O..XX.OX.O..XX.X.O.XXXXO.X.OO.O.O....OXOXOX.XOX.O.XO.X.O...X..OXOO.....XO...X.X.O.X..O.O....XX.O.OO.XOOOOXXO..X.OX...OX.XO.XXOO..O.OO...O..X.', ' "username0"', ' "username7"', 1)
+(' .O.X.X..O..O..X....OO.O.OO..O...XO.XO.XX.....XOO...O.XXX..OO....XOX...XXXO..X....O.OX..X....O...OX...X.XO...XX.X...XOO..XO..X..O...O.X.X..X.X....XX....O...O...XX.XO..OO.O......X........O.....XO..XX.......XOO....O.OO...O.X....', ' "username0"', ' "username8"', 0)
+(' ......X.O..X....O.XXO..X.OOX...X...X.XXO..OXXXOX.XX...X.O.OXX...OX.OO.X...O...O.O......O.XX.O....O..X.OXOOO.OXX..X...X..O..O..O..X.OX..........XO.X.X.O..OXOX.XO.O..X.O.O..OO..X..X...X..OX.X..O.......OO..XOX.O.O...X.......OXO.', ' "username0"', ' "username8"', 1)
+(' .O.OX...X.X..XX.OO.O..OX.XOO.X.X..XOOOXX.OXXOXOO....OXX...OOX..O..OXX..O.X.O..OX..X..O.X......O........O.OO..X..O.XX.XX.XO...XOXOOX.OXXOO.O..XX.XX..OXOX.X.O...O.XXO.X..XO.O.OOX........OO....OOXXX.XXOXOOXO...OOOX.X.XOX.X.X...O', ' "username0"', ' "username9"', 0)
+(' .OOO....X.X..X.O.XXX..OXO...X.X.OO..X...X...OO.....O..X...X...O.O..O.....O..OOX.XO.O..X..O.XX....XX..X.O.X.....X.....O....O...O.O.OX..OX.O.O.O..XX..X.XX..X...XO.X.X...X..OO.O.XOX.........O.O....O..XXO.OXX.O........XO.XXO..O..', ' "username0"', ' "username9"', 1)
+Input command  (h for help): 
+f
+
+Input command  (h for help): 
+u
+Input uid:5
+Input command  (h for help): 
+sf
+gid to favourite: 1009
+Input command  (h for help): 
+h
+Commands
+                    h: help
+                    q: quit
+                    u: set active user
+                    g: get games for user
+                    f: get favourite games for user
+                    sf: set favourite games for user
+                    rf: remove favourite game for user
+                    l: display leaderboard
+                    o: display open lobbies
+                    fo: display open lobbies of friends
+                  
+Input command  (h for help): 
+f
+(' XOOOO...X....X.X.OXOOOX...O..OX..O.O...X.........OXX...O....XX.O........X..XO......X.....OXX....X.XOOX......XX.X.X..OX......O.O.XOOO...O.X....XX......O.X..X.X.O...XOO...OX...X.X....X.OX.X.OXOXO....O.O.....X.OO...O...X..XO.OO.', ' "username0"', ' "username5"', 0)
+Input command  (h for help): 
+rf
+gid to unfavourite: 1009
+Input command  (h for help): 
+f
+
+Input command  (h for help): 
+l
+(5, ' "username5"', 12, 1)
+(8, ' "username8"', 12, 1)
+(1, ' "username1"', 10, 3)
+(2, ' "username2"', 10, 3)
+(7, ' "username7"', 10, 3)
+(0, ' "username0"', 9, 6)
+(6, ' "username6"', 8, 7)
+(4, ' "username4"', 7, 8)
+(9, ' "username9"', 7, 8)
+(3, ' "username3"', 5, 10)
+Input command  (h for help): 
+o
+(5000, 0)
+(5001, 1)
+Input command  (h for help): 
+fo
+
+Input command  (h for help): 
+u
+Input uid:9
+Input command  (h for help): 
+fo
+(5000, 0)
+Input command  (h for help): 
+u
+Input uid:2
+Input command  (h for help): 
+fo
+(5000, 0)
+(5001, 1)
+Input command  (h for help): 
+q
