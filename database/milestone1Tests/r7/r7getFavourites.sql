@@ -1,4 +1,5 @@
-
+-- get favourites of a user
+SET @player1 = 5;
 -- Set certain games to favourites
 SET @favGID1 = 1009;
 SET @favGID2 = 1024;
@@ -11,8 +12,6 @@ VALUES (@player1, @favGID2);
 INSERT INTO FavouriteGames (uid, gid)
 VALUES (@player1, @favGID3);
 
--- get favourites of a user
-SET @player1 = 5;
 
 SELECT 
     G.final_game_state,

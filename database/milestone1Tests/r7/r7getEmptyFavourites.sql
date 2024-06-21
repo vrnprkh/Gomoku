@@ -1,4 +1,6 @@
 -- get favourites of same user (empty)
+SET @player1 = 5;
+
 SELECT 
     G.final_game_state,
     U1.username AS player1,
