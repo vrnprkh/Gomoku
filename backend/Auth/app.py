@@ -3,6 +3,7 @@ from flask_cors import CORS
 import mysql.connector
 import logging
 from secret import db_password
+import bcrypt
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ def test_db():
         logger.error(f"DB connection failed: {str(e)}", exc_info=True)
         return f"DB connection failed: {str(e)}"
 
+#SIGN UP
 @app.route('/api/signup', methods=['POST'])
 def signup():
     try:
@@ -67,7 +69,10 @@ def signup():
         max_uid = cursor.fetchone()[0]
         new_uid = 1 if max_uid is None else max_uid + 1
         
-        cursor.execute("INSERT INTO Users (uid, username, pwd) VALUES (%s, %s, %s)", (new_uid, username, password))
+        # Hash the password
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        
+        cursor.execute("INSERT INTO Users (uid, username, pwd) VALUES (%s, %s, %s)", (new_uid, username, hashed_password))
         conn.commit()
         
         cursor.close()
@@ -78,6 +83,7 @@ def signup():
         logger.error(f"Error in signup: {str(e)}", exc_info=True)
         return jsonify({'message': 'Signup failed', 'error': str(e)}), 500
 
+#LOGIN
 @app.route('/api/login', methods=['POST'])
 def login():
     try:
@@ -99,7 +105,7 @@ def login():
         
         if user:
             logger.info(f"User found: {user}")
-            if user['pwd'] == password:
+            if bcrypt.checkpw(password.encode('utf-8'), user['pwd'].encode('utf-8')):
                 logger.info("Password match, login successful")
                 return jsonify({'message': 'Login successful', 'uid': user['uid']}), 200
             else:
