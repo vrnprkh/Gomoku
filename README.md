@@ -1,6 +1,6 @@
 # Gomoku⚪⚫
 ## Current UI
-![Sign-up](/assets/Sign up.png)
+![Sign-up](/assets/Sign-up.png)
 ![Gameplay](/assets/gamePlay.png)
 ![About](/assets/about.png)
 ![Profile](/assets/profile.png)
