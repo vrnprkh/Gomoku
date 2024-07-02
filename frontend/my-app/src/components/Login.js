@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Auth.css';
 import { useNavigate } from 'react-router-dom';
-
+import './Auth.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,9 +11,12 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:5000//api/login', { username, password });
-      console.log(response.data);
-      navigate('/');
+      const response = await axios.post('http://127.0.0.1:5000/api/login', { username, password });
+      const { access_token, user_id } = response.data;
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('user_id', user_id);
+      setMessage('Login successful');
+      navigate('/account');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
       setMessage(error.response?.data?.message || 'Login failed');
