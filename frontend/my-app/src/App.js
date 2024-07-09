@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Gameboard from './components/Gameboard';
 import Players from './components/Players';
+import Friends from './components/Friends';
 import Header from './components/Header';
 import About from './components/About';
 import Account from './components/Account';
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Gameboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/players" element={<Players />} />
+          <Route path="/friends" element={<Friends />} />
           <Route path="/account" element={<Account />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

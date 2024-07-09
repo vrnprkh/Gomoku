@@ -66,7 +66,7 @@ def signup():
         new_uid = 1 if max_uid is None else max_uid + 1
         
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        
+        logger.info(hashed_password)
         cursor.execute("INSERT INTO Users (uid, username, pwd) VALUES (%s, %s, %s)", (new_uid, username, hashed_password))
         conn.commit()
         
