@@ -10,7 +10,7 @@
 - User Account Creation (with encrypted passwords), Account login, and changing / logging out of accounts. (Not a rubric feature)
 - Searching for users by username, either searching all users, or searching from friends only. (R9)
 - Match history, and Favourite games of the logged in user. (R7)
-- Viewing aggregate stats of a user (R8), such
+- Viewing aggregate stats of a user (R8), such as wins, losses, games played, and total time in game.
 
 ## Prerequisites
 -------------
