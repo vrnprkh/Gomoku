@@ -68,6 +68,6 @@ CREATE TABLE `FriendRequests` (
   `requestTime` timestamp,
   `status` int,
   PRIMARY KEY (`from_uid`, `to_uid`, `requestTime`),
-  FOREIGN KEY (`from_uid`) REFERENCES `Users` (`uid`),
-  FOREIGN KEY (`to_uid`) REFERENCES `Users` (`uid`)
+  FOREIGN KEY (`from_uid`) REFERENCES `Users` (`uid`) ON DELETE CASCADE,
+  FOREIGN KEY (`to_uid`) REFERENCES `Users` (`uid`) ON DELETE CASCADE
 );

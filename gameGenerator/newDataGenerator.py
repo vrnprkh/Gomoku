@@ -18,7 +18,7 @@ class User:
         self.uid : int = uid
         self.username : str = username
         self.password : str = password
-        self.encrptyed_password : str = encrypt_password(password.encode())
+        self.encrptyed_password : str = str(encrypt_password(password.encode()))[2:-1]
         
         self.gids : list[int] = []
         self.favourites = []
@@ -33,10 +33,10 @@ class User:
         # add game data given a gamestate
         # Gomoku has information each turn in (x, y, timeSeconds)
         # and player info is passed in
-        start : int = 0 if isPlayer1 else 1
         gamePlayTime = 0 # seconds
-        for i in range(start, len(gameState.moves), 2):
+        for i in range(len(gameState.moves)):
             gamePlayTime += gameState.moves[i][2]
+
         self.playTime += gamePlayTime
         if gameState.checkGameState() == None:
             self.draws += 1
@@ -61,9 +61,8 @@ for i in range(NUM_USERS):
 
 
 friendRequests = []
-EXPECTED_RQ = NUM_USERS/10
+EXPECTED_RQ = NUM_USERS
 RQ_CHANCE = EXPECTED_RQ/(NUM_USERS * NUM_USERS / 2) 
-#TODO FRIENDS 
 # send friend requests between users, and automatically create a status for them
 for i in range(NUM_USERS):
     for j in range(i + 1, NUM_USERS):
@@ -73,13 +72,13 @@ for i in range(NUM_USERS):
             base = datetime.datetime.today()
             offset = base - datetime.timedelta(days=random.randint(0, 7), hours=random.randint(0,23), seconds=random.randint(0,3599))
             if random.randint(1,2):
-                friendRequests.append((uid1, uid2, str(offset)))
+                friendRequests.append((uid1, uid2, str(offset), 0))
             else:
-                friendRequests.append((uid2, uid1, str(offset)))
+                friendRequests.append((uid2, uid1, str(offset), 0))
 
 friends = []
 
-NORMAL_FRIENDLY_CHANCE = 5
+NORMAL_FRIENDLY_CHANCE = 3
 MORE_FRIENDLY_CHANCE = 1
 
 FRIENDLY_CHANCE = 10
@@ -108,7 +107,7 @@ detailedMoves = []
 
 for gid in range(1, NUM_GAMES + 1):
     if gid % 100 == 0:
-        print(f"Generating game {gid} / NUM_GAMES")
+        print(f"Generating game {gid} / {NUM_GAMES}")
     game = generateRandomGame()
     user1 = userObjects[random.randint(0, len(userObjects) - 1)]
     user2 = userObjects[random.randint(0, len(userObjects) - 1)]
@@ -117,10 +116,21 @@ for gid in range(1, NUM_GAMES + 1):
 
     user1.addGame(game, True, gid)
     user2.addGame(game, False, gid)
+    base = datetime.datetime.today()
+    offset = base - datetime.timedelta(days=random.randint(0, 7), hours=random.randint(0,23), seconds=random.randint(0,3599))
     games.append([gid, user1.uid, user2.uid, game.draw().replace("\n", ""), 
-            {PieceState.BLACK : 0, PieceState.WHITE : 1, None : 2}[game.checkGameState()]])
+            {PieceState.BLACK : 0, PieceState.WHITE : 1, None : 2}[game.checkGameState()], offset])
 
-    detailedMoves.extend((gid, moveNum, game.moves[moveNum][0], game.moves[moveNum][1], game.moves[moveNum][2]) for moveNum in range(len(game.moves)))
+    detailedMoves.extend((
+        gid, 
+        moveNum, 
+        game.moves[moveNum][0], 
+        game.moves[moveNum][1], 
+        time.strftime(
+            "%H:%M:%S",
+            time.gmtime(game.moves[moveNum][2])
+            )
+        ) for moveNum in range(len(game.moves)))
 
 
 favourites = []
@@ -141,6 +151,7 @@ userStats = [(
     user.uid, 
     random.randint(1, 2000), # random elo
     time.strftime("%H:%M:%S", time.gmtime(user.playTime)), #seconds to mysql time
+    user.wins + user.draws + user.losses,
     user.wins, 
     user.losses, 
     user.draws

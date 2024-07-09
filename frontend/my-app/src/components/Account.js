@@ -10,10 +10,10 @@ const GomokuBoard = ({ state }) => {
         <div className="gomoku-row" key={rowIndex}>
             {row.split('').map((cell, colIndex) => (
                 <div
-                    className={`gomoku-cell ${cell === '⚪' ? 'white' : cell === '⚫' ? 'black' : ''}`}
+                    className={`gomoku-cell ${cell === '⚫' ? 'white' : cell === '⚪' ? 'black' : ''}`}
                     key={colIndex}
                 >
-                    {cell === '.' ? '' : cell === 'X' ? '⚪' : '⚫'}
+                    {cell === '.' ? '' : cell === 'X' ? '⚫' : '⚪'}
                 </div>
             ))}
         </div>

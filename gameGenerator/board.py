@@ -27,7 +27,7 @@ class Gomoku:
         if self.board[y][x] == PieceState.EMPTY and self.turn == self.turn:
             self.board[y][x] = self.turn
             self.switchTurn()
-            moveTime = random.randint(3, 10)
+            moveTime = random.random() * 10 + 3
             self.moves.append((x, y, moveTime))
             
             return True
