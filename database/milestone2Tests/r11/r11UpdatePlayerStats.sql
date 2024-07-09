@@ -45,7 +45,7 @@ SET elo = wins - losses  -- temp elo calculation: elo = # wins - # losses, will 
 WHERE uid = @player_id;
 
 
--- Oututs updated player stats
+-- Outputs updated player stats
 SELECT *
 FROM UserStats
 WHERE uid = @player_id;

@@ -26,7 +26,7 @@ SET @game_id = 101;
 SET @player_id = 2;
 UPDATE Lobbies
 SET uid2 = @player_id
-WHERE gid = @game_id;
+WHERE gid = @game_id AND open = TRUE;
 
 -- Output new Lobbies table
 SELECT * FROM Lobbies;
