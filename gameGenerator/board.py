@@ -11,6 +11,7 @@ class Gomoku:
         self.size : int = size
         self.board : list[list[PieceState]] = [[PieceState.EMPTY for _ in range(size)] for _ in range(size)]
         self.turn : PieceState = PieceState.BLACK
+        self.moves : list[tuple[int,int, int]] = []
 
     def inBounds(self, x, y):
         return 0 <= x and x < self.size and 0 <= y and y < self.size
@@ -26,6 +27,9 @@ class Gomoku:
         if self.board[y][x] == PieceState.EMPTY and self.turn == self.turn:
             self.board[y][x] = self.turn
             self.switchTurn()
+            moveTime = random.randint(3, 10)
+            self.moves.append((x, y, moveTime))
+            
             return True
         return False
     
@@ -74,12 +78,8 @@ class Gomoku:
 
 
 
-
-
-
 def generateRandomGame(size = 15):
     game = Gomoku(size)
-
     legalMoves = [(y, x) for y in range(size) for x in range(size)]
 
     while game.checkGameState() == None and len(legalMoves) > 0:
