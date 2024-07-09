@@ -1,5 +1,5 @@
 import mysql.connector
-from backend.instance.secret import db_password
+from secret import db_password
 import os
 # assume tables have been created and are empty
 
