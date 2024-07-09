@@ -21,6 +21,7 @@ CREATE TABLE `Games` (
   `uid2` int,
   `final_game_state` varchar(255),
   `result` int,
+  `start_time` timestamp,
   FOREIGN KEY (`uid1`) REFERENCES `Users` (`uid`) ON DELETE SET NULL,
   FOREIGN KEY (`uid2`) REFERENCES `Users` (`uid`) ON DELETE SET NULL
 );
@@ -38,7 +39,7 @@ CREATE TABLE `DetailedMoves` (
   `move_number` int,
   `coordinateX` int,
   `coordinateY` int,
-  `moveTime` timestamp,
+  `moveTime` time,
   PRIMARY KEY (`gid`, `move_number`),
   FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`) ON DELETE CASCADE
 );
