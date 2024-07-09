@@ -1,7 +1,7 @@
 CREATE TABLE `Users` (
   `uid` int PRIMARY KEY,
   `username` varchar(16),
-  `pwd` varchar(16)
+  `pwd` varchar(64)
 );
 
 CREATE TABLE `UserStats` (
@@ -29,14 +29,15 @@ CREATE TABLE `FavouriteGames` (
   `uid` int,
   `gid` int,
   PRIMARY KEY (`uid`, `gid`),
-  FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`),
-  FOREIGN KEY (`uid`) REFERENCES `Users` (`uid`)
+  FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`) ON DELETE CASCADE,
+  FOREIGN KEY (`uid`) REFERENCES `Users` (`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE `DetailedMoves` (
   `gid` int,
   `move_number` int,
-  `coordinate` varchar(2),
+  `coordinateX` int,
+  `coordinateY` int,
   `moveTime` timestamp,
   PRIMARY KEY (`gid`, `move_number`),
   FOREIGN KEY (`gid`) REFERENCES `Games` (`gid`)
