@@ -51,41 +51,37 @@ if __name__ == "__main__":
     cursor.execute("DELETE FROM `Games`;")
     query = load_data_into_table("Games", gameDataPath, queryPath)
     cursor.execute(query)
-
+    stmt = "INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time) VALUES (%s, %s, %s, %s, %s, %s)"
+    stmt2 = "INSERT INTO Lobbies (gid, uid1, uid2, open) VALUES (%s, %s, %s, %s)"
     if DB_NAME == "prod_db":
-        cursor.execute(
-            """INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (10001, 6, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (10002, 9, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (10003, 4, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (10004, 2, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (10005, 0, NULL, NULL, NULL, NULL);
-INSERT INTO Lobbies (gid, uid1, uid2, open)
-VALUES(10001, 6, NULL, TRUE);
-INSERT INTO Lobbies (gid, uid1, uid2, open)
-VALUES(10002, 9, NULL, TRUE);
-INSERT INTO Lobbies (gid, uid1, uid2, open)
-VALUES(10003, 4, NULL, TRUE);
-INSERT INTO Lobbies (gid, uid1, uid2, open)
-VALUES(10004, 2, NULL, TRUE);
-INSERT INTO Lobbies (gid, uid1, uid2, open)
-VALUES(10005, 0, NULL, TRUE);"""
-        )
+        seq_params = [
+            (10001, 6, None, None, None, None),
+            (10002, 9, None, None, None, None),
+            (10003, 4, None, None, None, None),
+            (10004, 2, None, None, None, None),
+            (10005, 0, None, None, None, None)
+            ] 
+        seq_params2 = [
+            (10001, 6, None, True),
+            (10003, 4, None, True),
+            (10003, 4, None, True),
+            (10004, 2, None, True),
+            (10005, 0, None, True),
+        ]
+        cursor.executemany(stmt, seq_params)
+        cursor.executemany(stmt2, seq_params2)
+  
     else:
-        cursor.execute(
-            """INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (101, 6, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
-VALUES (102, 9, NULL, NULL, NULL, NULL);
-INSERT INTO Games (gid, uid1, uid2, open)
-VALUES(101, 6, NULL, TRUE);
-INSERT INTO Games (gid, uid1, uid2, open)
-VALUES(102, 9, NULL, TRUE);"""
-        )
+        seq_params = [
+            (101, 6, None, None, None, None),
+            (102, 9, None, None, None, None),
+            ]
+        seq_params2 = [
+            (101, 6, None, True),
+            (102, 9, None, True)
+        ]
+        cursor.executemany(stmt, seq_params)
+        cursor.executemany(stmt2, seq_params2)
 
     # friends
     friendDataPath = os.path.join(dirname, dataPath, "friends.txt")
