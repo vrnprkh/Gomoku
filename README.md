@@ -38,6 +38,17 @@
 
 4. Run backend
 - Navigate to backend/
+- create a .env with the following information
+    ```
+    DB_USER={db_username}
+    DB_PASSWORD={db_password}
+    DB_HOST={domain}.mysql.database.azure.com
+    DB_NAME={db_name}
+    SECRET_KEY={key}
+    JWT_SECRET_KEY={key}
+    ```
+- Note the SECRET_KEY is for flask and can be arbritrary
+- JWT_SECRET_KEY is for user tokens, and is also arbritrary
 - create and activate a venv
 - install all requirements with pip
 - run the app with `python run.py`
