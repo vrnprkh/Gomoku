@@ -12,9 +12,9 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 dataPath = ""
 if DB_NAME == "prod_db":
-    dataPath = "prodData/"
+    dataPath = "prodData"
 else:
-    dataPath = "sampleData/"
+    dataPath = "sampleData"
 # assume tables have been created and are empty
 
 def load_data_into_table(table_name, file_path, sql_file_path):
@@ -37,48 +37,47 @@ if __name__ == "__main__":
     cursor = conn.cursor()
 
     dirname = os.path.dirname(__file__)
-    queryPath = os.path.join(dirname, "sql/upload.sql")
-    
+    queryPath = os.path.join(dirname, "sql", "upload.sql")
 
 
     # users
-    userInfoPath = os.path.join(dirname, dataPath + "users.txt")
+    userInfoPath = os.path.join(dirname, dataPath, "users.txt")
     cursor.execute("DELETE FROM `Users`;")
     query = load_data_into_table("Users", userInfoPath, queryPath)
     cursor.execute(query)
 
     # games
-    gameDataPath = os.path.join(dirname, dataPath + "games.txt")
+    gameDataPath = os.path.join(dirname, dataPath, "games.txt")
     cursor.execute("DELETE FROM `Games`;")
     query = load_data_into_table("Games", gameDataPath, queryPath)
     cursor.execute(query)
 
     # friends
-    friendDataPath = os.path.join(dirname, dataPath + "friends.txt")
+    friendDataPath = os.path.join(dirname, dataPath, "friends.txt")
     cursor.execute("DELETE FROM `Friends`;")
     query = load_data_into_table("Friends", friendDataPath, queryPath)
     cursor.execute(query)
 
     # userStats
-    userStatsPath = os.path.join(dirname, dataPath + "userStats.txt")
+    userStatsPath = os.path.join(dirname, dataPath, "userStats.txt")
     cursor.execute("DELETE FROM `UserStats`;")
     query = load_data_into_table("UserStats", userStatsPath, queryPath)
     cursor.execute(query)
 
     #favourites
-    favouritesPath = os.path.join(dirname, dataPath + "favourites.txt")
+    favouritesPath = os.path.join(dirname, dataPath, "favourites.txt")
     cursor.execute("DELETE FROM `FavouriteGames`;")
     query = load_data_into_table("FavouriteGames", favouritesPath, queryPath)
     cursor.execute(query)
 
     #detailed moves
-    detailedMovesPath = os.path.join(dirname, dataPath + "detailedMoves.txt")
+    detailedMovesPath = os.path.join(dirname, dataPath, "detailedMoves.txt")
     cursor.execute("DELETE FROM `detailedMoves`;")
     query = load_data_into_table("DetailedMoves", detailedMovesPath, queryPath)
     cursor.execute(query)
 
     #detailed moves
-    detailedMovesPath = os.path.join(dirname, dataPath + "friendRequests.txt")
+    detailedMovesPath = os.path.join(dirname, dataPath, "friendRequests.txt")
     cursor.execute("DELETE FROM `friendRequests`;")
     query = load_data_into_table("FriendRequests", detailedMovesPath, queryPath)
     cursor.execute(query)
