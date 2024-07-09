@@ -3,11 +3,17 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import mysql.connector
 import logging
 import bcrypt
+from dotenv import load_dotenv
 import os
 from config import Config
 
+load_dotenv()
 
+db_user = os.getenv("DB_USER")
 db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv("DB_HOST")
+db_name = os.getenv("DB_NAME")
+
 
 auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger(__name__)
@@ -15,11 +21,11 @@ logger = logging.getLogger(__name__)
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
-            user="gomoku_db_admin",
+            user=db_user,
             password=db_password,
-            host="gomoku-database.mysql.database.azure.com",
+            host=db_host,
             port=3306,
-            database="prod_db",
+            database=db_name,
             ssl_ca="DigiCertGlobalRootG2.crt.pem",
             ssl_disabled=False
         )
