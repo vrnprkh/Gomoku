@@ -16,7 +16,7 @@ def get_db_connection():
             password=db_password,
             host="gomoku-database.mysql.database.azure.com",
             port=3306,
-            database="test_database",
+            database="prod_db",
             ssl_ca="DigiCertGlobalRootG2.crt.pem",
             ssl_disabled=False
         )
@@ -65,7 +65,7 @@ def signup():
         new_uid = 1 if max_uid is None else max_uid + 1
         
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        
+        logger.info(hashed_password)
         cursor.execute("INSERT INTO Users (uid, username, pwd) VALUES (%s, %s, %s)", (new_uid, username, hashed_password))
         conn.commit()
         

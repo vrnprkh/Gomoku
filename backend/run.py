@@ -5,6 +5,7 @@ from datetime import timedelta
 from config import Config
 from app.auth import auth_bp
 from app.players import players_bp
+from app.friends import friends_bp
 import logging
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -17,6 +18,7 @@ jwt = JWTManager(app)
 
 app.register_blueprint(auth_bp, url_prefix='/api/')
 app.register_blueprint(players_bp, url_prefix='/api')
+app.register_blueprint(friends_bp, url_prefix='/api')
 
 if __name__ == "__main__":
     app.run(debug=True)

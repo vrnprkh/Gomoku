@@ -18,7 +18,7 @@ if __name__ == "__main__":
     conn = mysql.connector.connect(user="gomoku_db_admin", 
                               password=f"{db_password}", 
                               host="gomoku-database.mysql.database.azure.com", 
-                              port=3306, database="test_database", 
+                              port=3306, database="prod_db", 
                               ssl_ca="DigiCertGlobalRootG2.crt.pem", 
                               ssl_disabled=False,
                               allow_local_infile=True)

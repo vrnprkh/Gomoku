@@ -45,7 +45,6 @@ def get_players():
         
         logger.info(f"Players fetched: {players}")
         response = jsonify(players)
-        # response.headers.add("Access-Control-Allow-Origin", "*")
         return jsonify(players)
     except Exception as e:
         logger.error(f"Error fetching players: {str(e)}", exc_info=True)
