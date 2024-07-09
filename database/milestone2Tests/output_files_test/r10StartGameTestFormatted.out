@@ -1,0 +1,10 @@
+-- LOBBIES TABLE (before) --
+gid	uid1	uid2	open
+101	6	None	1
+102	1	None	1
+
+
+-- LOBBIES TABLE (after) --
+gid	uid1	uid2	open
+101	6	2	0
+102	1	None	1

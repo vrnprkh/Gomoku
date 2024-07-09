@@ -1,0 +1,19 @@
+-- GAMES TABLE (In descending order by `gid`, limit 10 rows) --
+gid	uid1	uid2	final_game_state	result	start_time
+903	3	None	None	None	None
+102	1	0	None	None	None
+101	6	2	None	None	None
+100	0	9	X..X....X..X.....O...O...OO...XOX....X.O.OX....X.....X..O..O..OX..XO....O.OO..X...XXO......XO......XX.......X.O..O.X.OO.....O.XOX..XO.....X...O....XOX......OXXOX.......X...O...O....X.....X...XXX..O......O.O.X..O.O.X....O.O...	0	2024-07-01 05:41:37
+99	1	7	.XOXO.XO..XXXO.XX.O.X..OOO.XOOO.X.X..X..XOOOX.....OX.....O..OO......OX..OOX.OXO..XXOO..XOO.X...OOXOXXO..X.X..OXOXOX.XX...XXXOX..X.O..O.OXO.O..X.O.XOXOO.X.XX...OXX.XXXOOOOXOO.O..XOOOX..X...X.XXO.O..XXOX.X...OO.O...XX..OO.XOX.O	1	2024-07-07 04:58:05
+98	0	1	.X..XXO.O....O..XXX..XOO......XOO...O...X..OX.XXOXOOXOX..O.O.OX.O.X...XXO.......XOX....X.OX.X..O..O.O.XO...X..X....XO.XO......XX..X...X.O.......O.O...OOO..X..X..X.O.......O.................O..O.X....O....X...O...X........O...	1	2024-07-09 01:58:14
+97	9	8	...OOX.....OX....XX..X...X......XXO........X.........O....XO.X.............OOOOO..O...XO......O.X.XOOO....XX....XO..X.O.X....O.........X.X.XO...........O.O........................X....OOXX..O...X...O.O...O.O.X..XXXX.......O..	1	2024-07-07 14:12:37
+96	5	1	XO.O.X.X.....OOO.OX....O.....X.O....OXXX.X...OXX.XX.X.OXO.O..O.XO...XXXXXO.O.....X...X.XOXO..X..O.O..X..OO..XXOXOOX.O.O........OXX.....O.X..O.O.X..OXOO..X.O...O.X.O....XX.XOX....O..XO.OXXO..X.O.......O....O.XOXXX...OO..OX....	0	2024-07-01 13:38:54
+95	0	8	..OXO.......OO.......X...X.XO...O.OXO.XOXX....OOXX.X.X.X...O.XO.OOOO...OOXX.OO.OX..XX.X....OOO..XOO..XX.OX...O....O.OXO.OXXOXX...O.OX...XOO.XOOO..XX.....O.X..O.X.OOO..OX.O.XO..X..XO.X.XX.X.XXOOXOXOXXXOX.X.X.O.OX.OXO.XX..X..XO	1	2024-07-05 00:04:08
+94	0	8	O...X....OO...OO.OX......X...O...X..........X.X.X....O.O.......X.X.........X..X..O...OX...O..X...XX..OO....OO....X...X......O.X.XO....O.XX............O...O..........X..X.OOO....X..O.X.OX.X.X..X.O.XO.X..........XOO.O..........	0	2024-07-02 23:43:12
+
+
+-- LOBBIES TABLE --
+gid	uid1	uid2	open
+101	6	None	1
+102	1	None	1
+903	3	None	1

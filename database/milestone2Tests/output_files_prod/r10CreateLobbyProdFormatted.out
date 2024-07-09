@@ -1,0 +1,22 @@
+-- GAMES TABLE (In descending order by `gid`, limit 10 rows) --
+gid	uid1	uid2	final_game_state	result	start_time
+90003	3	None	None	None	None
+10005	583	None	None	None	None
+10004	2	None	None	None	None
+10003	4	None	None	None	None
+10002	9	None	None	None	None
+10001	6	None	None	None	None
+10000	104	282	XOOOOO.XO...OXXO....O..X.X.X...O.O.X.O.XO...OX.OO...XO...X...O..X.X.X.X...XO..O.X..X.O.O.O.OOXX.O..OX.X...OO.O.O....O.OXXX.XX.O..XOXX.O..O..XXO..OXOOXOX..XXOXOXOX....XX..O.X.OO.X.OX...X.X..XX..OOOXO.O.X.XOOXX..OX.XXX....O..O.	1	2024-07-02 09:54:42
+9999	852	130	.X.OX.X...OXXOXOX.XOXOXOX.O.OXO..OXX.XO.O.OXX.O.XXOXX.X.OX.OX.OXOOX.XXOOO.XXOO.XXXO.X..OOOOX.OXOOOOXOO.O..X.OO.OOOXXX....XXOX..XX.OO...XO.OX.XXOO.XO.XOX..XO.O.XXX.XXXOX.XXO...XXOOOOO.XO.OO..X.O.OOOXXO.X.OXXOX..XXOO.O.XXXOXO.O	0	2024-07-08 05:30:58
+9998	166	509	.O.X.XX...X...OXOXX...X.X.....XX...O..XXOO.....XOXOO.OX.OXO.X.O.O.OOOX.XO.X...X..X.XXX..OX...X.OO..X....X...OO..O...OOXXXO.....X....XO.O.XOO.X..X.X.XOOO.OXXOOO.OX..X.XX.O..OO...O...X.X..X...XO...OXOO..O..O.OX..OXX..O.OXO..X.O	0	2024-07-07 05:42:16
+9997	942	292	..X.OO.OOX.X..O.OXXO.X..OO.XX.O.OXO..X.X.X.X..XX....X.OOX.X.OO.O.....OOX.XO..O.X..OOO..X.....X.X.O..OXOXO...X.XOO..O.XXO..OXO..OOX....XO...X.XXXOOXOO....XX.X.....X...X..O.X.....O.XO...X.XO...O..XOXX.O.OX.O..O.OXO...O..X....X.	1	2024-07-04 07:59:16
+
+
+-- LOBBIES TABLE --
+gid	uid1	uid2	open
+10001	6	None	1
+10002	9	None	1
+10003	4	None	1
+10004	2	None	1
+10005	583	None	1
+90003	3	None	1
