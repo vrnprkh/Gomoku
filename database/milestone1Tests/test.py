@@ -34,7 +34,7 @@ if __name__ == "__main__":
         password=db_password, 
         host="gomoku-database.mysql.database.azure.com", 
         port=3306, 
-        database="test_database", 
+        database="prod_db", 
         ssl_ca=ca_cert_path, 
         ssl_disabled=False
     )
