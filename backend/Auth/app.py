@@ -7,7 +7,7 @@ import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -121,35 +121,31 @@ def login():
 @jwt_required()
 def get_user_data(user_id):
     current_user_id = get_jwt_identity()
+    logger.info(f"Requested user_id: {user_id}, Current user_id: {current_user_id}")
+    
     if current_user_id != user_id:
+        logger.warning(f"Unauthorized access attempt: requested {user_id}, current user {current_user_id}")
         return jsonify({'message': 'Unauthorized access'}), 403
 
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # Fetch user data
-        cursor.execute("SELECT username, rank FROM Users WHERE uid = %s", (user_id,))
+        cursor.execute("SELECT username FROM Users WHERE uid = %s", (current_user_id,))
         user_data = cursor.fetchone()
         
         if not user_data:
+            logger.warning(f"No user found for user_id: {current_user_id}")
             return jsonify({'message': 'User not found'}), 404
 
-        # Fetch match history (you'll need to implement this based on your database schema)
-        cursor.execute("SELECT * FROM MatchHistory WHERE user_id = %s ORDER BY match_date DESC LIMIT 5", (user_id,))
-        match_history = cursor.fetchall()
-
+        logger.info(f"User data fetched: {user_data}")
+        
         cursor.close()
         conn.close()
 
         return jsonify({
             'username': user_data['username'],
-            'rank': user_data['rank'],
-            'profilePicture': 'https://via.placeholder.com/150',  # You might want to store this in the database
-            'matchHistory': [
-                {'opponent': match['opponent'], 'result': 'Win 🏆' if match['result'] == 'win' else 'Loss ❌'}
-                for match in match_history
-            ]
+            'profilePicture': 'https://via.placeholder.com/150'
         }), 200
     except Exception as e:
         logger.error(f"Error fetching user data: {str(e)}", exc_info=True)
