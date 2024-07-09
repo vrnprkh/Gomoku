@@ -25,7 +25,7 @@ if __name__ == "__main__":
     db_password = get_password()
     base_dir = os.path.dirname(__file__)
 
-    ca_cert_path = os.path.join(base_dir, '../../helloworld/DigiCertGlobalRootG2.crt.pem')
+    ca_cert_path = os.path.join(base_dir, '../DigiCertGlobalRootG2.crt.pem')
     if not os.path.exists(ca_cert_path):
         raise FileNotFoundError(f"The CA certificate file was not found at path: {ca_cert_path}")
 
