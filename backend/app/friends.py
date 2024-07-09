@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import mysql.connector
 import logging
-from instance.secret import db_password
+import os
+db_password = os.getenv('DB_PASSWORD')
 
 friends_bp = Blueprint('friends', __name__)
 logger = logging.getLogger(__name__)

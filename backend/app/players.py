@@ -1,12 +1,11 @@
 from flask import Blueprint, request, jsonify
 import mysql.connector
 import logging
-from instance.secret import db_password
+import os
 from config import Config
-
+db_password = os.getenv('DB_PASSWORD')
 players_bp = Blueprint('players', __name__)
 logger = logging.getLogger(__name__)
-
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
