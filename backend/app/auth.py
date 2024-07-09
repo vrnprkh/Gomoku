@@ -3,8 +3,11 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import mysql.connector
 import logging
 import bcrypt
-from instance.secret import db_password
+import os
 from config import Config
+
+
+db_password = os.getenv('DB_PASSWORD')
 
 auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger(__name__)
