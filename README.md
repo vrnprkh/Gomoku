@@ -16,6 +16,17 @@
 ------------------------------------
 1. Log in to Azure Portal.
 
-2. Create a MySQL Database, named "<database name>".
+2. Create a MySQL Database, named "test_database", or "prod_db". By default, test_database will only contain sample data (10 users, 100 games) (using the upload script), and prod_db will contain a signifcantly larger set of (1000 users, 10000 games). 
+3. Once the database has been created, navigate to "database/". In here do the following:
+- create a .env file with the following values:
+    ```
+    DB_USER={db_username}
+    DB_PASSWORD={db_password}
+    DB_HOST={domain}.mysql.database.azure.com
+    DB_NAME={db_name}
+    ```
+- Create a virtual environment (`python -m venv venv`) and activate (platform dependent)
+- install dependencies on venv (`pip install -r requirements.txt`)
+- create tables using createTables.py (`python createTables.py`)
+- uploadData using uploadData.py (`python uploadData.py`)
 
-3. Set Up Database Tables by using create.sql (under database/sql/create.sql) This creates all the tables with the current constraints needed. To load the data into the tables, run the uploader.py script under database/. This will fill the tables with all the data in sampleData directory. To generate new data, use the dataGenerator.py script, which will create randomly generated data, for n users. Currently the data generated includes: Users, Completed Games (Games Table), Friends, and userStats. Lobbies are manually created in sampleData to test a feature. As of now, this is the data needed for our sample features and tests, the remaining tables will be populated for future milestones.
