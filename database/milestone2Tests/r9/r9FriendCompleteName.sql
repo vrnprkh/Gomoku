@@ -1,5 +1,5 @@
-SET @player_id = 9;
-SET @friend_name = '3_username';
+SET @player_id = 8;
+SET @friend_name = '2_username';
 SELECT
     CASE
         WHEN f.uid1 = @player_id THEN f.uid2

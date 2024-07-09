@@ -1,4 +1,4 @@
-SET @player_id = 9;
+SET @player_id = 8;
 SET @friend_name = 'name';
 SELECT
     CASE

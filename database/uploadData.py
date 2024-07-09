@@ -59,14 +59,14 @@ if __name__ == "__main__":
             (10002, 9, None, None, None, None),
             (10003, 4, None, None, None, None),
             (10004, 2, None, None, None, None),
-            (10005, 0, None, None, None, None)
+            (10005, 583, None, None, None, None)
             ] 
         seq_params2 = [
             (10001, 6, None, True),
-            (10003, 4, None, True),
+            (10002, 9, None, True),
             (10003, 4, None, True),
             (10004, 2, None, True),
-            (10005, 0, None, True),
+            (10005, 583, None, True),
         ]
         cursor.executemany(stmt, seq_params)
         cursor.executemany(stmt2, seq_params2)
@@ -74,11 +74,11 @@ if __name__ == "__main__":
     else:
         seq_params = [
             (101, 6, None, None, None, None),
-            (102, 9, None, None, None, None),
+            (102, 1, None, None, None, None),
             ]
         seq_params2 = [
             (101, 6, None, True),
-            (102, 9, None, True)
+            (102, 1, None, True)
         ]
         cursor.executemany(stmt, seq_params)
         cursor.executemany(stmt2, seq_params2)

@@ -1,6 +1,6 @@
 -- R6 Feature
 -- This query returns the open lobbies created by their friends for a given user (@player_id)
-SET @player_id = 2;
+SET @player_id = 4;
 SELECT l.gid, l.uid1
 FROM Lobbies l
 JOIN (
