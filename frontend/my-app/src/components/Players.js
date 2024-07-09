@@ -18,7 +18,7 @@ function Players() {
   const fetchPlayers = async () => {
     try {
       console.log("Fetching players with search:", search);
-      const response = await axios.get('http://localhost:5000/api/players', {
+      const response = await axios.get('http://127.0.0.1:5000/api/players', {
         params: { search }
       });
       console.log("Players fetched:", response.data);
@@ -31,7 +31,7 @@ function Players() {
   const fetchFriendRequests = async () => {
     try {
       console.log("Fetching friend requests");
-      const response = await axios.get('http://localhost:5000/api/friend-requests');
+      const response = await axios.get('http://127.0.0.1:5000/api/friend-requests');
       console.log("Friend requests fetched:", response.data);
       setFriendRequests(response.data);
     } catch (error) {

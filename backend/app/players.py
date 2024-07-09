@@ -44,6 +44,8 @@ def get_players():
         conn.close()
         
         logger.info(f"Players fetched: {players}")
+        response = jsonify(players)
+        response.headers.add("Access-Control-Allow-Origin", "*")
         return jsonify(players)
     except Exception as e:
         logger.error(f"Error fetching players: {str(e)}", exc_info=True)
@@ -63,7 +65,9 @@ def get_player_stats(uid):
         if not player_stats:
             return jsonify({'message': 'User stats not found'}), 404
         
-        return jsonify(player_stats)
+        response = jsonify(player_stats)
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     except Exception as e:
         logger.error(f"Error fetching player stats: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch player stats'}), 500
