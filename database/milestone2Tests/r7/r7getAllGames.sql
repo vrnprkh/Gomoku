@@ -1,4 +1,12 @@
--- get all games
+-- Create indexes to speed up filtering
+-- (we only need to create the indexes once)
+/*
+CREATE INDEX GameUid1Ind ON Games(uid1);
+CREATE INDEX GameUid2Ind ON Games(uid2);
+*/
+
+
+-- get all games for a specific player (@player1)
 SET @player1 = 5;
 
 SELECT 
