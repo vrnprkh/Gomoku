@@ -1,5 +1,14 @@
 -- Update Player Stats
 
+-- Create indexes to speed up filtering
+-- (we only need to create the indexes once)
+/*
+CREATE INDEX GameResultsInd ON Games(result);
+CREATE INDEX GameUid1ResultsInd ON Games(uid1, result);
+CREATE INDEX GameUid2ResultsInd ON Games(uid2, result);
+*/
+
+
 -- Update stats for a specific player (@player_id)
 SET @player_id = 0;
 
