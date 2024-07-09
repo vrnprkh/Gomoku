@@ -30,3 +30,15 @@
 - create tables using createTables.py (`python createTables.py`)
 - uploadData using uploadData.py (`python uploadData.py`)
 
+4. Run backend
+- Navigate to backend/
+- create and activate a venv
+- install all requirements with pip
+- run the app with `python run.py`
+5. Run frontend
+- Navigate to frontend/my-app
+- run `npm install`
+- run `npm start`
+
+The app should now be functional!
+
