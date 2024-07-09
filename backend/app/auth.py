@@ -16,7 +16,7 @@ def get_db_connection():
             password=db_password,
             host="gomoku-database.mysql.database.azure.com",
             port=3306,
-            database="test_database",
+            database="prod_db",
             ssl_ca="DigiCertGlobalRootG2.crt.pem",
             ssl_disabled=False
         )
@@ -25,6 +25,7 @@ def get_db_connection():
     except Exception as e:
         logger.error(f"Database connection failed: {str(e)}", exc_info=True)
         raise
+
 @auth_bp.route('/')
 def home():
     return "Welcome to the Gomoku API"
@@ -121,12 +122,41 @@ def get_user_data(user_id):
         if not user_data:
             return jsonify({'message': 'User not found'}), 404
 
+        cursor.execute("SELECT uid, elo, total_play_time, total_games_played, wins, losses, draws FROM userstats WHERE uid = %s", (current_user_id,))
+        user_stats = cursor.fetchone()
+
+        if user_stats:
+            user_stats['total_play_time'] = str(user_stats['total_play_time'])
+
+        cursor.execute("""
+            SELECT g.gid, u1.username as player1, u2.username as player2, g.final_game_state, g.result
+            FROM Games g
+            JOIN Users u1 ON g.uid1 = u1.uid
+            JOIN Users u2 ON g.uid2 = u2.uid
+            WHERE g.uid1 = %s OR g.uid2 = %s
+            ORDER BY g.gid DESC LIMIT 10
+        """, (current_user_id, current_user_id))
+        match_history = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT p.gid, u1.username as player1, u2.username as player2, g.final_game_state, g.result
+            FROM FavouriteGames p
+            JOIN Games g ON p.gid = g.gid
+            JOIN Users u1 ON g.uid1 = u1.uid
+            JOIN Users u2 ON g.uid2 = u2.uid
+            WHERE p.uid = %s
+        """, (current_user_id,))
+        favourite_games = cursor.fetchall()
+
         cursor.close()
         conn.close()
 
         return jsonify({
             'username': user_data['username'],
-            'profilePicture': 'https://via.placeholder.com/150'
+            'profilePicture': 'https://via.placeholder.com/150',
+            'userStats': user_stats,
+            'matchHistory': match_history,
+            'favouriteGames': favourite_games
         }), 200
     except Exception as e:
         logger.error(f"Error fetching user data: {str(e)}", exc_info=True)

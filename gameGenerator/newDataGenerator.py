@@ -60,8 +60,6 @@ for i in range(NUM_USERS):
     userObjects.append(User(i, f"{i}_username", f"{i}_password"))
 
 
-
-
 friendRequests = []
 EXPECTED_RQ = NUM_USERS/10
 RQ_CHANCE = EXPECTED_RQ/(NUM_USERS * NUM_USERS / 2) 
