@@ -25,6 +25,23 @@ def get_db_connection():
     except Exception as e:
         logger.error(f"Database connection failed: {str(e)}", exc_info=True)
         raise
+@auth_bp.route('/')
+def home():
+    return "Welcome to the Gomoku API"
+
+@auth_bp.route('/test_db')
+def test_db():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return "DB connection successful"
+    except Exception as e: 
+        logger.error(f"DB connection failed: {str(e)}", exc_info=True)
+        return f"DB connection failed: {str(e)}"
 
 @auth_bp.route('/signup', methods=['POST'])
 def signup():
@@ -98,26 +115,18 @@ def get_user_data(user_id):
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         
-        cursor.execute("SELECT username, rank FROM Users WHERE uid = %s", (user_id,))
+        cursor.execute("SELECT username FROM Users WHERE uid = %s", (current_user_id,))
         user_data = cursor.fetchone()
         
         if not user_data:
             return jsonify({'message': 'User not found'}), 404
-
-        cursor.execute("SELECT * FROM MatchHistory WHERE user_id = %s ORDER BY match_date DESC LIMIT 5", (user_id,))
-        match_history = cursor.fetchall()
 
         cursor.close()
         conn.close()
 
         return jsonify({
             'username': user_data['username'],
-            'rank': user_data['rank'],
-            'profilePicture': 'https://via.placeholder.com/150',
-            'matchHistory': [
-                {'opponent': match['opponent'], 'result': 'Win 🏆' if match['result'] == 'win' else 'Loss ❌'}
-                for match in match_history
-            ]
+            'profilePicture': 'https://via.placeholder.com/150'
         }), 200
     except Exception as e:
         logger.error(f"Error fetching user data: {str(e)}", exc_info=True)
