@@ -52,6 +52,41 @@ if __name__ == "__main__":
     query = load_data_into_table("Games", gameDataPath, queryPath)
     cursor.execute(query)
 
+    if DB_NAME == "prod_db":
+        cursor.execute(
+            """INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (10001, 6, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (10002, 9, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (10003, 4, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (10004, 2, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (10005, 0, NULL, NULL, NULL, NULL);
+INSERT INTO Lobbies (gid, uid1, uid2, open)
+VALUES(10001, 6, NULL, TRUE);
+INSERT INTO Lobbies (gid, uid1, uid2, open)
+VALUES(10002, 9, NULL, TRUE);
+INSERT INTO Lobbies (gid, uid1, uid2, open)
+VALUES(10003, 4, NULL, TRUE);
+INSERT INTO Lobbies (gid, uid1, uid2, open)
+VALUES(10004, 2, NULL, TRUE);
+INSERT INTO Lobbies (gid, uid1, uid2, open)
+VALUES(10005, 0, NULL, TRUE);"""
+        )
+    else:
+        cursor.execute(
+            """INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (101, 6, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, final_game_state, result, start_time)
+VALUES (102, 9, NULL, NULL, NULL, NULL);
+INSERT INTO Games (gid, uid1, uid2, open)
+VALUES(101, 6, NULL, TRUE);
+INSERT INTO Games (gid, uid1, uid2, open)
+VALUES(102, 9, NULL, TRUE);"""
+        )
+
     # friends
     friendDataPath = os.path.join(dirname, dataPath, "friends.txt")
     cursor.execute("DELETE FROM `Friends`;")
