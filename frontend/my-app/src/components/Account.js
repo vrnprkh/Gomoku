@@ -4,18 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './Account.css';
 
 const Account = () => {
-    const defaultPlayerInfo = {
-        username: "PlayerOne",
-        rank: "Gold",
-        profilePicture: "https://via.placeholder.com/150",
-        matchHistory: [
-            { opponent: "PlayerTwo", result: "Win 🏆" },
-            { opponent: "PlayerThree", result: "Loss ❌" },
-            { opponent: "PlayerFour", result: "Win 🏆" }
-        ]
-    };
-
-    const [playerInfo, setPlayerInfo] = useState(defaultPlayerInfo);
+    const [playerInfo, setPlayerInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -30,7 +19,7 @@ const Account = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, {
+                const response = await axios.get(`http://127.0.0.1:5000/api/user/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setPlayerInfo(response.data);
@@ -53,23 +42,18 @@ const Account = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
+  
+    if (!playerInfo) {
+      return <div>Error loading user data</div>;
+    }
+  
     return (
-        <div className="account-container">
-            <div className="profile-section">
-                <img src={playerInfo.profilePicture} alt="Profile" className="profile-picture" />
-                <h1>{playerInfo.username}</h1>
-                <p>Rank: {playerInfo.rank}</p>
-            </div>
-            <div className="history-section">
-                <h2>Match History</h2>
-                <ul>
-                    {playerInfo.matchHistory.map((match, index) => (
-                        <li key={index}>{match.opponent} - {match.result}</li>
-                    ))}
-                </ul>
-            </div>
+      <div className="account-container">
+        <div className="profile-section">
+          <img src={playerInfo.profilePicture} alt="Profile" className="profile-picture" />
+          <h1>{playerInfo.username}</h1>
         </div>
+      </div>
     );
 };
 
