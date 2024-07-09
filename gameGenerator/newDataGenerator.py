@@ -120,8 +120,7 @@ for gid in range(1, NUM_GAMES + 1):
     user1.addGame(game, True, gid)
     user2.addGame(game, False, gid)
     games.append([gid, user1.uid, user2.uid, game.draw().replace("\n", ""), 
-            {PieceState.BLACK : "BLACK", PieceState.WHITE : "WHITE", None : "DRAW"}[game.checkGameState()]])
-    
+            {PieceState.BLACK : 0, PieceState.WHITE : 1, None : 2}[game.checkGameState()]])
 
     detailedMoves.extend((gid, moveNum, game.moves[moveNum][0], game.moves[moveNum][1], game.moves[moveNum][2]) for moveNum in range(len(game.moves)))
 
@@ -155,7 +154,7 @@ def writeData(data, output, outputFolder = "newResults/"):
     outputPath = os.path.join(os.path.dirname(__file__), outputFolder, output)
     with open(outputPath, "w") as f:
         f.write(
-            "\n".join([", ".join(map(str, e)) for e in data])
+            "\n".join([",".join(map(str, e)) for e in data])
         )
 
 
