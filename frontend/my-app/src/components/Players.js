@@ -61,7 +61,7 @@ function Players() {
           {showFriendRequests ? (
             friendRequests.map((request) => (
               <tr key={`${request.fromuid}-${request.touid}`}>
-                <td>{request.fromuid} -> {request.touid}</td>
+                <td>{request.fromuid} -{'>'} {request.touid}</td>
                 <td>{request.status}</td>
               </tr>
             ))
