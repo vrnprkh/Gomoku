@@ -1,9 +1,15 @@
 import mysql.connector
-from secret import db_password
+from dotenv import load_dotenv
 import os
 # set to "test_database" to upload to sample database
 # set to "prod_db" for prod db
-DB_NAME = "prod_db"
+
+
+load_dotenv()
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
 dataPath = ""
 if DB_NAME == "prod_db":
     dataPath = "prodData/"
@@ -21,9 +27,9 @@ def load_data_into_table(table_name, file_path, sql_file_path):
     return query
 
 if __name__ == "__main__":
-    conn = mysql.connector.connect(user="gomoku_db_admin", 
-                              password=f"{db_password}", 
-                              host="gomoku-database.mysql.database.azure.com", 
+    conn = mysql.connector.connect(user=DB_USER, 
+                              password=f"{DB_PASSWORD}", 
+                              host=DB_HOST, 
                               port=3306, database=DB_NAME,
                               ssl_ca="DigiCertGlobalRootG2.crt.pem", 
                               ssl_disabled=False,
