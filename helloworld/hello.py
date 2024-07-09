@@ -1,5 +1,5 @@
 import mysql.connector
-from secret import db_password
+from backend.instance.secret import db_password
 conn = mysql.connector.connect(user="gomoku_db_admin", 
                               password=f"{db_password}", 
                               host="gomoku-database.mysql.database.azure.com", 

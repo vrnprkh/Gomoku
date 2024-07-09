@@ -1,4 +1,4 @@
-from secret import db_password
+from backend.secret import db_password
 import mysql.connector
 import os
 
