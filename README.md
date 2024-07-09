@@ -6,6 +6,12 @@
 ![About](/assets/about.png)
 ![Profile](/assets/profile.png)
 
+## Current Supported Features
+- User Account Creation (with encrypted passwords), Account login, and changing / logging out of accounts. (Not a rubric feature)
+- Searching for users by username, either searching all users, or searching from friends only. (R9)
+- Match history, and Favourite games of the logged in user. (R7)
+- Viewing aggregate stats of a user (R8), such
+
 ## Prerequisites
 -------------
 - Active Azure subscription
@@ -41,4 +47,7 @@
 - run `npm start`
 
 The app should now be functional!
+
+
+
 
