@@ -1,10 +1,12 @@
 # Gomoku⚪⚫
 ## Current UI
+![Gameplay](/assets/gamePlay.png)
+![Statistics](/assets/stats.png)
+![Match-History](/assets/match-history.png)
 ![Log-in](/assets/Log-in.png)
 ![Sign-up](/assets/Sign-up.png)
-![Gameplay](/assets/gamePlay.png)
 ![About](/assets/about.png)
-![Profile](/assets/profile.png)
+
 
 ## Current Supported Features
 - User Account Creation (with encrypted passwords), Account login, and changing / logging out of accounts. (Not a rubric feature)
