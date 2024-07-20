@@ -1,4 +1,6 @@
 # Gomoku⚪⚫
+## Technologies & design
+![Tech](/assets/tech.png)
 ## Current UI
 ![Gameplay](/assets/gamePlay.png)
 ![Statistics](/assets/stats.png)
