@@ -58,6 +58,33 @@ const Account = () => {
         fetchUserData();
     }, [navigate]);
 
+    const handleToggleFavourite = async (gid, isFavourite) => {
+        const token = localStorage.getItem('token');
+        try {
+            if (isFavourite) {
+                await axios.delete('http://127.0.0.1:5000/api/favourite', {
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: { gid }
+                });
+            } else {
+                await axios.post('http://127.0.0.1:5000/api/favourite', { gid }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
+            const updatedPlayerInfo = { ...playerInfo };
+            if (isFavourite) {
+                updatedPlayerInfo.favouriteGames = updatedPlayerInfo.favouriteGames.filter(game => game.gid !== gid);
+            } else {
+                const game = updatedPlayerInfo.matchHistory.find(game => game.gid === gid);
+                updatedPlayerInfo.favouriteGames.push(game);
+            }
+            setPlayerInfo(updatedPlayerInfo);
+        } catch (error) {
+            console.error('Failed to toggle favourite game:', error);
+        }
+    };
+    
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -121,17 +148,23 @@ const Account = () => {
             <h2>Match History 📝</h2>
             {playerInfo.matchHistory && playerInfo.matchHistory.length > 0 ? (
                 <div className="match-history-container">
-                    {playerInfo.matchHistory.map(match => (
-                        <div className="match-history-item" key={match.gid}>
-                            <div className="match-info">
-                                <div><strong>Game ID:</strong> {match.gid}</div>
-                                <div><strong>Player 1:</strong> {match.player1}</div>
-                                <div><strong>Player 2:</strong> {match.player2}</div>
-                                <div><strong>Result:</strong> {match.result === 0 ? 'Player 1 Wins' : 'Player 2 Wins'}</div>
+                    {playerInfo.matchHistory.map(match => {
+                        const isFavourite = playerInfo.favouriteGames.some(game => game.gid === match.gid);
+                        return (
+                            <div className="match-history-item" key={match.gid}>
+                                <div className="match-info">
+                                    <div><strong>Game ID:</strong> {match.gid}</div>
+                                    <div><strong>Player 1:</strong> {match.player1}</div>
+                                    <div><strong>Player 2:</strong> {match.player2}</div>
+                                    <div><strong>Result:</strong> {match.result === 0 ? 'Player 1 Wins' : 'Player 2 Wins'}</div>
+                                </div>
+                                <GomokuBoard state={match.final_game_state} />
+                                <button onClick={() => handleToggleFavourite(match.gid, isFavourite)}>
+                                    {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
+                                </button>
                             </div>
-                            <GomokuBoard state={match.final_game_state} />
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             ) : (
                 <div>No match history available</div>
@@ -141,7 +174,7 @@ const Account = () => {
 
     const renderFavouriteGames = () => (
         <div className="favourite-games-section">
-            <h2>Favourite Games❤️</h2>
+            <h2>Favourite Games ❤️</h2>
             {playerInfo.favouriteGames && playerInfo.favouriteGames.length > 0 ? (
                 <div className="match-history-container">
                     {playerInfo.favouriteGames.map(game => (
@@ -153,6 +186,9 @@ const Account = () => {
                                 <div><strong>Result:</strong> {game.result === 0 ? 'Player 1 Wins' : 'Player 2 Wins'}</div>
                             </div>
                             <GomokuBoard state={game.final_game_state} />
+                            <button onClick={() => handleToggleFavourite(game.gid, true)}>
+                                Remove from Favourites
+                            </button>
                         </div>
                     ))}
                 </div>

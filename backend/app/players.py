@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import mysql.connector
 import logging
 import os
@@ -13,7 +14,9 @@ db_host = os.getenv("DB_HOST")
 db_name = os.getenv("DB_NAME")
 
 players_bp = Blueprint('players', __name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
@@ -30,7 +33,6 @@ def get_db_connection():
     except Exception as e:
         logger.error(f"Database connection failed: {str(e)}", exc_info=True)
         raise
-
 
 @players_bp.route('/players', methods=['GET'])
 def get_players():
@@ -72,7 +74,6 @@ def get_player_stats(uid):
             return jsonify({'message': 'User stats not found'}), 404
         
         response = jsonify(player_stats)
-        # response.headers.add("Access-Control-Allow-Origin", "*")
         return response
     except Exception as e:
         logger.error(f"Error fetching player stats: {str(e)}", exc_info=True)
@@ -93,3 +94,48 @@ def get_games(uid):
     except Exception as e:
         logger.error(f"Error fetching games: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch games'}), 500
+
+@players_bp.route('/favourite', methods=['POST'])
+@jwt_required()
+def add_to_favourites():
+    try:
+        user_id = get_jwt_identity()
+        gid = request.json.get('gid')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = "INSERT INTO FavouriteGames (uid, gid) VALUES (%s, %s)"
+        cursor.execute(query, (user_id, gid))
+        logger.info(f"Adding to favourites: user_id={user_id}, gid={gid}")
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'message': 'Game added to favourites'}), 201
+    except Exception as e:
+        logger.error(f"Error adding to favourites: {str(e)}", exc_info=True)
+        return jsonify({'message': 'Failed to add to favourites'}), 500
+
+@players_bp.route('/favourite', methods=['DELETE'])
+@jwt_required()
+def remove_from_favourites():
+    try:
+        user_id = get_jwt_identity()
+        gid = request.json.get('gid')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        query = "DELETE FROM prod_db.FavouriteGames WHERE uid = %s AND gid = %s"
+        cursor.execute(query, (user_id, gid))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'message': 'Game removed from favourites'}), 200
+    except Exception as e:
+        logger.error(f"Error removing from favourites: {str(e)}", exc_info=True)
+        return jsonify({'message': 'Failed to remove from favourites'}), 500
