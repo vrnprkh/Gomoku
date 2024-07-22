@@ -52,13 +52,13 @@ def get_players():
         cursor.close()
         conn.close()
         
-        logger.info(f"Players fetched: {players}")
+        # logger.info(f"Players fetched: {players}")
         response = jsonify(players)
         return jsonify(players)
     except Exception as e:
         logger.error(f"Error fetching players: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch players'}), 500
-    
+
 @players_bp.route('/player-stats/<int:uid>', methods=['GET'])
 def get_player_stats(uid):
     try:

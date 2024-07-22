@@ -31,13 +31,63 @@ function Players() {
   const fetchFriendRequests = async () => {
     try {
       console.log("Fetching friend requests");
-      const response = await axios.get('http://127.0.0.1:5000/api/friend-requests');
+      const token = localStorage.getItem('token'); 
+      console.log("Token:", token);  // Debugging statement
+
+      const response = await axios.get('http://127.0.0.1:5000/api/friend-requests', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       console.log("Friend requests fetched:", response.data);
       setFriendRequests(response.data);
     } catch (error) {
       console.error('Error fetching friend requests:', error);
     }
   };
+
+  const acceptFriendRequest = async (from_uid) => {
+    try {
+      console.log("Accepting friend request");
+      console.log(from_uid)
+      const token = localStorage.getItem('token');
+      
+      await axios.post('http://127.0.0.1:5000/api/accept-request', 
+        { from_uid }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+
+      
+      fetchFriendRequests();
+    } catch (error) {
+      console.error('Error accepting friend request', error);
+    }
+  }
+  const denyFriendRequest = async (from_uid) => {
+    try {
+      console.log("Denying friend request");
+      console.log(from_uid)
+      const token = localStorage.getItem('token');
+      
+      await axios.post('http://127.0.0.1:5000/api/deny-request', 
+        { from_uid }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+
+      
+      fetchFriendRequests();
+    } catch (error) {
+      console.error('Error accepting friend request', error);
+    }
+  }
 
   return (
     <div>
@@ -60,9 +110,11 @@ function Players() {
         <tbody>
           {showFriendRequests ? (
             friendRequests.map((request) => (
-              <tr key={`${request.fromuid}-${request.touid}`}>
-                <td>{request.fromuid} -{'>'} {request.touid}</td>
-                <td>{request.status}</td>
+              <tr key={`${request.from_uid}`}>
+                <td>{request.from_uid}</td>
+                <td>{request.username}</td>
+                <td><button onClick={() => {acceptFriendRequest(request.from_uid)}}>Accept</button>
+                <button onClick={() => denyFriendRequest(request.from_uid)}>Deny</button></td>
               </tr>
             ))
           ) : (

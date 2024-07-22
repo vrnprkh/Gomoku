@@ -14,6 +14,7 @@ db_name = os.getenv("DB_NAME")
 
 
 friends_bp = Blueprint('friends', __name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def get_db_connection():
@@ -40,7 +41,7 @@ def get_friends():
         current_user_id = get_jwt_identity()
         search = request.args.get('search', '')
 
-        logger.info(f"Current user ID: {current_user_id}, Search: {search}")
+        # logger.info(f"Current user ID: {current_user_id}, Search: {search}")
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -80,3 +81,102 @@ def get_friends():
     except Exception as e:
         logger.error(f"Error fetching friends: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch friends'}), 500
+
+
+
+
+@friends_bp.route('/friend-requests', methods=['GET'])
+@jwt_required()
+def get_friend_requests():
+    try:
+        current_user_id = get_jwt_identity()
+
+        logger.info(f"Current user ID: {current_user_id}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+
+        query = """
+        SELECT u.username, fr.to_uid, fr.from_uid
+        FROM FriendRequests fr, Users u
+        WHERE fr.to_uid = %s AND u.uid = fr.from_uid
+        """
+        
+        cursor.execute(query, [current_user_id])
+        friends_details = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        logger.info(f"Friends fetched for user {current_user_id}: {friends_details}")
+        return jsonify(friends_details)
+    except Exception as e:
+        logger.error(f"Error fetching friend requests: {str(e)}", exc_info=True)
+        return jsonify({'message': 'Failed to fetch friend requests'}), 500
+
+
+@friends_bp.route('/accept-request', methods=['POST'])
+@jwt_required()
+def accept_friend_request():
+    try:
+        current_user_id = get_jwt_identity()
+        from_uid = request.json.get('from_uid')
+        logger.info(f"Current user ID: {current_user_id}")
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+
+        queryinsert = """
+        INSERT INTO friends (uid1, uid2)
+        SELECT from_uid, to_uid
+        FROM friendrequests
+        WHERE from_uid = %s AND to_uid = %s;
+        """
+        querydelete = """
+        DELETE FROM friendrequests
+        WHERE from_uid = %s AND to_uid = %s;
+        """
+        
+        cursor.execute(queryinsert, [from_uid, current_user_id])
+        cursor.execute(querydelete, [from_uid, current_user_id])
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        logger.info(f"Friends inserted {current_user_id}: {from_uid}")
+        return jsonify()
+    except Exception as e:
+        logger.error(f"Error accepting friend request: {str(e)}", exc_info=True)
+        return jsonify({'message': 'accept friend request'}), 500
+
+
+@friends_bp.route('/deny-request', methods=['POST'])
+@jwt_required()
+def deny_friend_request():
+    try:
+        current_user_id = get_jwt_identity()
+        from_uid = request.json.get('from_uid')
+        logger.info(f"Current user ID: {current_user_id}")
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        querydelete = """
+        DELETE FROM friendrequests
+        WHERE from_uid = %s AND to_uid = %s;
+        """
+        
+        cursor.execute(querydelete, [from_uid, current_user_id])
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        logger.info(f"Friends inserted {current_user_id}: {from_uid}")
+        return jsonify()
+    except Exception as e:
+        logger.error(f"Error accepting friend request: {str(e)}", exc_info=True)
+        return jsonify({'message': 'accept friend request'}), 500
+
+
+
