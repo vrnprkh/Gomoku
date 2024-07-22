@@ -81,11 +81,27 @@ function Players() {
             }
         }
     );
-
-      
       fetchFriendRequests();
     } catch (error) {
       console.error('Error accepting friend request', error);
+    }
+  }
+
+  const sendFriendRequest = async (to_uid) => {
+    try {
+      console.log("Sending friend request")
+      const token = localStorage.getItem('token');
+
+      await axios.post('http://127.0.0.1:5000/api/send-request', 
+        { to_uid }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    );
+    } catch (error) {
+      console.error('Error sending friend request', error);
     }
   }
 
@@ -122,6 +138,7 @@ function Players() {
               <tr key={player.uid}>
                 <td>{player.uid}</td>
                 <td>{player.username}</td>
+                <td><button onClick={() => {sendFriendRequest(player.uid)}}>Send Request</button></td>
               </tr>
             ))
           )}

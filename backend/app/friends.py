@@ -4,6 +4,7 @@ import mysql.connector
 import logging
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -180,3 +181,60 @@ def deny_friend_request():
 
 
 
+@friends_bp.route('/send-request', methods=['POST'])
+@jwt_required()
+def send_friend_request():
+    try:
+        from_uid = get_jwt_identity()
+        to_uid = request.json.get('to_uid')
+        
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        #check uid not same
+        if (from_uid == to_uid):
+            cursor.close()
+            conn.close()
+            return jsonify()
+        # check if in friends
+        querycheckfriends = """
+        SELECT * 
+        FROM Friends f 
+        WHERE (f.uid1 = %s and f.uid2 = %s) or (f.uid1 = %s and f.uid2 = %s)
+        """
+        cursor.execute(querycheckfriends, [to_uid, from_uid, from_uid, to_uid])
+        if cursor.fetchone() != None:
+            cursor.close()
+            conn.close()
+            return jsonify()
+        
+        # check if in friend requests
+        querycheckrequests = """
+        SELECT *
+        FROM FriendRequests fr
+        WHERE fr.from_uid = %s and fr.to_uid = %s
+        """
+        cursor.execute(querycheckrequests, [from_uid, to_uid])
+        if cursor.fetchone() != None:
+            cursor.close()
+            conn.close()
+            return jsonify()
+        
+        # create
+        querycreaterequest = """
+        INSERT INTO FriendRequests (from_uid, to_uid, requestTime, status)
+        VALUES (%s, %s, %s, %s)
+        
+        """
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute(querycreaterequest, [from_uid, to_uid, timestamp, 1])
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify()
+
+
+
+    except Exception as e:
+        logger.error(f"Error accepting friend request: {str(e)}", exc_info=True)
+        return jsonify({'message': 'accept friend request failed'}), 500
