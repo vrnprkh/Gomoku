@@ -13,8 +13,10 @@ def create_app():
     from .auth import auth_bp
     from .players import players_bp
     from .friends import friends_bp
+    from .lobbies import lobbies_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(players_bp, url_prefix='/api')
     app.register_blueprint(friends_bp, url_prefix='/api')
+    app.register_blueprint(lobbies_bp, url_prefix='/api')
     return app
