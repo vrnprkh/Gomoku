@@ -50,7 +50,7 @@ const DetailedMoves = () => {
     // start move index from last move
     useEffect(() => {
         if (movesInfo.length > 0) {
-            setMoveIndex(movesInfo.length - 1);
+            setMoveIndex(movesInfo.length);
         } else {
             setMoveIndex(0);
         }
@@ -90,7 +90,7 @@ const DetailedMoves = () => {
                         
                         <div className="match-btn-container">
                             <button onClick={() => setMoveIndex(Math.max(moveIndex-1, 0))}>Previous Move</button>
-                            <button onClick={() => setMoveIndex(Math.min(moveIndex+1, movesInfo.length-1))}>Next Move</button>
+                            <button onClick={() => setMoveIndex(Math.min(moveIndex+1, movesInfo.length))}>Next Move</button>
                         </div>
                     </div>
                 ) : (
