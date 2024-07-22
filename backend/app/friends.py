@@ -135,11 +135,11 @@ def accept_friend_request():
         """
         querydelete = """
         DELETE FROM friendrequests
-        WHERE from_uid = %s AND to_uid = %s;
+        WHERE (from_uid = %s AND to_uid = %s) or (from_uid = %s AND to_uid = %s);
         """
         
         cursor.execute(queryinsert, [from_uid, current_user_id])
-        cursor.execute(querydelete, [from_uid, current_user_id])
+        cursor.execute(querydelete, [from_uid, current_user_id, current_user_id, from_uid])
 
         conn.commit()
         cursor.close()
