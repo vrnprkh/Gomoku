@@ -72,3 +72,35 @@ def get_lobbies():
     except Exception as e:
         logger.error(f"Error fetching lobbies: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch lobbies'}), 500
+
+@lobbies_bp.route('/join_lobby', methods=['POST'])
+@jwt_required()
+def join_lobby():
+    try:
+        current_user_id = get_jwt_identity()
+        gid = request.json.get('gid')
+
+        logger.info(f"User {current_user_id} joining lobby {gid}")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Update the lobby to set uid2 and close it
+        query = """
+        UPDATE Lobbies 
+        SET uid2 = %s, open = '0'
+        WHERE gid = %s AND open = '1'
+        """
+        cursor.execute(query, (current_user_id, gid))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        if cursor.rowcount == 0:
+            return jsonify({'message': 'Failed to join lobby. It might be already closed.'}), 400
+        
+        return jsonify({'message': 'Successfully joined the lobby'}), 200
+    except Exception as e:
+        logger.error(f"Error joining lobby: {str(e)}", exc_info=True)
+        return jsonify({'message': 'Failed to join lobby'}), 500

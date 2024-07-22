@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function Lobbies(){
     const [lobbies, setLobbies] = useState([]);
@@ -18,7 +17,7 @@ function Lobbies(){
 
     const fetchLobbies = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token'); 
             console.log("Token:", token);
     
             const response = await axios.get('http://127.0.0.1:5000/api/lobbies', {
@@ -34,8 +33,28 @@ function Lobbies(){
         }
     };
 
-    const filterLobbies = () =>{
-        if (search){
+    const joinLobby = async (gid) => {
+        try {
+            const token = localStorage.getItem('token'); 
+            console.log("Token:", token);  
+    
+            const response = await axios.post('http://127.0.0.1:5000/api/join_lobby', 
+                { gid },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            console.log("Join lobby response:", response.data);
+            fetchLobbies(); // Refresh lobbies after joining
+        } catch (error) {
+            console.error('Error joining lobby:', error);
+        }
+    };
+
+    const filterLobbies = () => {
+        if (search) {
             const filtered = lobbies.filter(lobby =>
                 lobby.username.toLowerCase().includes(search.toLowerCase())
             );
@@ -44,7 +63,7 @@ function Lobbies(){
             setFilteredLobbies(lobbies);
         }
         console.log("Filtered lobbies:", filteredLobbies);
-    }
+    };
 
     return (
         <div>
@@ -59,20 +78,24 @@ function Lobbies(){
             </button>
             <table>
                 <thead>
-                <tr>
-                    <th>Game ID</th>
-                    <th>User ID</th>
-                    <th>Username</th>
-                </tr>
+                    <tr>
+                        <th>Game ID</th>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {filteredLobbies.map((lobby) => (
-                    <tr key={lobby.gid}>
-                    <td>{lobby.gid}</td>
-                    <td>{lobby.uid1}</td>
-                    <td>{lobby.username}</td>
-                    </tr>
-                ))}
+                    {filteredLobbies.map((lobby) => (
+                        <tr key={lobby.gid}>
+                            <td>{lobby.gid}</td>
+                            <td>{lobby.uid1}</td>
+                            <td>{lobby.username}</td>
+                            <td>
+                                <button onClick={() => joinLobby(lobby.gid)}>Join</button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
