@@ -6,10 +6,11 @@ function Lobbies(){
     const [lobbies, setLobbies] = useState([]);
     const [search, setSearch] = useState('');
     const [filteredLobbies, setFilteredLobbies] = useState([]);
+    const [showFriendsOnly, setShowFriendsOnly] = useState(false);
 
     useEffect(() => {
         fetchLobbies();
-    }, []);
+    }, [search, showFriendsOnly]);
 
     useEffect(() => {
         filterLobbies();
@@ -17,21 +18,21 @@ function Lobbies(){
 
     const fetchLobbies = async () => {
         try {
-          const token = localStorage.getItem('token'); 
-          console.log("Token:", token);  
+            const token = localStorage.getItem('token');
+            console.log("Token:", token);
     
-          const response = await axios.get('http://127.0.0.1:5000/api/lobbies', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-            params: { search }
-          });
-          console.log("Lobbies fetched:", response.data);
-          setLobbies(response.data);
+            const response = await axios.get('http://127.0.0.1:5000/api/lobbies', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: { search, show_friends_only: showFriendsOnly }
+            });
+            console.log("Lobbies fetched:", response.data);
+            setLobbies(response.data);
         } catch (error) {
-          console.error('Error fetching lobbies:', error);
+            console.error('Error fetching lobbies:', error);
         }
-      };
+    };
 
     const filterLobbies = () =>{
         if (search){
@@ -49,10 +50,13 @@ function Lobbies(){
         <div>
             <input
                 type="text"
-                placeholder="Search for username"
+                placeholder="Search for open Lobbies"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
+            <button onClick={() => setShowFriendsOnly(!showFriendsOnly)}>
+                {showFriendsOnly ? 'Show All Lobbies' : 'Show Friends Lobbies'}
+            </button>
             <table>
                 <thead>
                 <tr>

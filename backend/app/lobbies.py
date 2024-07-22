@@ -38,25 +38,36 @@ def get_lobbies():
     try:
         current_user_id = get_jwt_identity()
         search = request.args.get('search', '')
+        show_friends_only = request.args.get('show_friends_only', 'false').lower() == 'true'
 
-        logger.info(f"Current user ID: {current_user_id}, Search: {search}")
+        logger.info(f"Current user ID: {current_user_id}, Search: {search}, Show friends only: {show_friends_only}")
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
 
-        # Simplified query to ensure basic functionality
-        query = """
-        SELECT l.gid, l.uid1, users.username
-        FROM Lobbies l JOIN users ON l.uid1 = users.uid
-        WHERE l.open = '1';
-        """
-        
-        cursor.execute(query, ())
+        if show_friends_only:
+            query = """
+            SELECT l.gid, l.uid1, u.username
+            FROM Lobbies l
+            JOIN Users u ON l.uid1 = u.uid
+            JOIN Friends f ON ((f.uid1 = %s AND f.uid2 = l.uid1) OR (f.uid2 = %s AND f.uid1 = l.uid1))
+            WHERE l.open = '1';
+            """
+            cursor.execute(query, (current_user_id, current_user_id))
+        else:
+            query = """
+            SELECT l.gid, l.uid1, u.username
+            FROM Lobbies l
+            JOIN Users u ON l.uid1 = u.uid
+            WHERE l.open = '1';
+            """
+            cursor.execute(query)
+
         lobbies_details = cursor.fetchall()
         cursor.close()
         conn.close()
 
-        logger.debug(f"Open lobbies fetched: {lobbies_details}")
+        logger.debug(f"Lobbies fetched: {lobbies_details}")
         return jsonify(lobbies_details)
     except Exception as e:
         logger.error(f"Error fetching lobbies: {str(e)}", exc_info=True)
