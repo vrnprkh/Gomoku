@@ -10,6 +10,7 @@ import About from './components/About';
 import Account from './components/Account';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import DetailedMoves from './components/DetailedMoves';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/viewgame/:gid" element={<DetailedMoves />} />
         </Routes>
       </div>
     </Router>

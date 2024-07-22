@@ -1,0 +1,9 @@
+.detailed-move-container {
+    display: flex;
+    justify-content: center;
+}
+
+.detailed-move-content {
+    width: 100%;
+    max-width: 800px;
+}

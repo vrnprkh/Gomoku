@@ -159,9 +159,13 @@ const Account = () => {
                                     <div><strong>Result:</strong> {match.result === 0 ? 'Player 1 Wins' : 'Player 2 Wins'}</div>
                                 </div>
                                 <GomokuBoard state={match.final_game_state} />
-                                <button onClick={() => handleToggleFavourite(match.gid, isFavourite)}>
-                                    {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
-                                </button>
+                                
+                                <div className="match-btn-container">
+                                    <button onClick={() => handleToggleFavourite(match.gid, isFavourite)}>
+                                        {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
+                                    </button>
+                                    <button onClick={() => navigate(`/viewgame/${match.gid}`)}>See Detailed Moves</button>
+                                </div>
                             </div>
                         );
                     })}

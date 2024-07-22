@@ -85,6 +85,12 @@
     margin-bottom: 10px;
 }
 
+.match-btn-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
 .gomoku-board {
     display: grid;
     grid-template-columns: repeat(15, 20px);
