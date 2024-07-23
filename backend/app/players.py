@@ -84,7 +84,12 @@ def get_games(uid):
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        query = "SELECT * FROM Games WHERE uid1 = %s OR uid2 = %s"
+        query = """
+            SELECT * 
+            FROM Games
+            WHERE (uid1 = %s OR uid2 = %s) AND (final_game_state IS NOT NULL)
+            
+            """
         cursor.execute(query, (uid, uid))
         games = cursor.fetchall()
         cursor.close()
