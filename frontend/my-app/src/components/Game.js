@@ -29,34 +29,48 @@ const Game = () => {
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
 
+    const fetchTurn = async () => {
+        try {
+            const token = localStorage.getItem('token'); 
+            console.log("Token:", token);  
+    
+            const response = await axios.get('http://127.0.0.1:5000/api/poll-turn', 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    params: { gid }
+                }
+            );
+
+            console.log(response.data);
+
+            setStarted(response.data["started"]);
+            setIsPlayerTurn(response.data["turn"]);
+            
+            // draw updated board
+            let newBoard = '.'.repeat(15*15);
+            let moves = response.data["moves"];
+            for (let i = 0; i < moves.length; i++) {
+                let index = moves[i]["coordinateY"] * 15 + moves[i]["coordinateX"];
+                newBoard = newBoard.substring(0, index) + (i%2 == 0 ? 'X' : 'O') + newBoard.substring(index+1);
+            }
+            setBoardState(newBoard)
+
+        } catch (error) {
+            console.error('Error polling for turn:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchTurn();
+    }, []);
     
     useEffect(() => {
-        const fetchTurn = async () => {
-            try {
-                const token = localStorage.getItem('token'); 
-                console.log("Token:", token);  
-        
-                const response = await axios.get('http://127.0.0.1:5000/api/poll-turn', 
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        },
-                        params: { gid }
-                    }
-                );
-    
-                console.log(response.data);
-
-                setStarted(response.data["started"]);
-                setIsPlayerTurn(response.data["turn"]);
-    
-            } catch (error) {
-                console.error('Error polling for turn:', error);
-            }
-        }
+        fetchTurn();
 
         // Polling interval set to 5 seconds
-        const intervalId = setInterval(fetchTurn, 5000);
+        const intervalId = setInterval(fetchTurn, 1000);
     
         // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
