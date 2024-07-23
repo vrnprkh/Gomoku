@@ -48,8 +48,10 @@ function Lobbies(){
                     }
                 }
             );
+
             console.log("Join lobby response:", response.data);
-            fetchLobbies(); // Refresh lobbies after joining
+            navigate(`/game/${gid}`); // go to new game
+
         } catch (error) {
             console.error('Error joining lobby:', error);
         }
@@ -70,10 +72,8 @@ function Lobbies(){
             );
 
             console.log("Create lobby response:", response.data);
+            navigate(`/game/${response.data}`); // go to new game
 
-            navigate(`/game/${response.data}`)
-
-            fetchLobbies(); // Refresh lobbies after creating lobby
         } catch (error) {
             console.error('Error creating lobby:', error);
         }
