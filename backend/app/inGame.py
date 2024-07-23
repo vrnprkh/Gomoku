@@ -153,7 +153,7 @@ def poll_turn():
         isPlayerOne = current_user_id == game["uid1"]
 
         queryMoves = """
-        SELECT *
+        SELECT gid, move_number, coordinateX, coordinateY
         FROM DetailedMoves
         WHERE gid = %s
         """
@@ -179,8 +179,8 @@ def make_move():
     try: 
         current_user_id = get_jwt_identity()
         gid = request.json.get('gid')
-        x = request.json.get('x')
-        y = request.json.get('y')
+        x = int(request.json.get('x'))
+        y = int(request.json.get('y'))
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True, buffered=True)
@@ -239,18 +239,20 @@ def make_move():
 
         # TODO, fix move time please 
         queryAddMove = """
-        INSERT INTO DetailedMoves(gid, moveNum, coordinateX, coordinateY, moveTime)
-        VALUES(%s, %s, %s, %s, %s, 00:00:10)
+        INSERT INTO DetailedMoves(gid, move_number, coordinateX, coordinateY, moveTime)
+        VALUES(%s, %s, %s, %s, 10)
         """
 
         cursor.execute(queryAddMove, [gid, len(moves), x, y])
-        cursor.commit()
+        conn.commit()
         cursor.close()
         conn.close()
 
 
         gameState = b.checkGameState()
         # TODO check gamestate and move game if finish
+
+        return jsonify()
 
 
 
