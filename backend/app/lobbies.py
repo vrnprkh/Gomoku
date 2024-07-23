@@ -89,7 +89,7 @@ def get_self_lobbies():
         FROM Lobbies l
         WHERE l.uid1 = %s OR l.uid2 = %s
         """
-        cursor.execute(query)
+        cursor.execute(query, [current_user_id, current_user_id])
 
         lobbies_details = cursor.fetchall()
         cursor.close()
