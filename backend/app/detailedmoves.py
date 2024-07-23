@@ -33,8 +33,6 @@ def get_db_connection():
         logger.error(f"Database connection failed: {str(e)}", exc_info=True)
         raise
 
-
-# todo
 @detailed_moves_bp.route('/detailed_moves', methods=['GET'])
 @jwt_required()
 def join_lobby():
