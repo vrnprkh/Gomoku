@@ -229,7 +229,7 @@ def make_move():
         # we now can make the move
         b = Gomoku()
         for move in moves:
-            b.place(moves["coordinateX"], moves["coordinateY"])
+            b.place(move["coordinateX"], move["coordinateY"])
 
         # cannot place this piece
         if not b.place(x, y):
