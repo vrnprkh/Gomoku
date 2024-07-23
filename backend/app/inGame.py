@@ -64,6 +64,8 @@ def poll_turn():
             cursor.close()
             conn.close()
             return jsonify(), 500
+        if game["uid2"] == None:
+            return jsonify({"turn" : False})
         
         
         isPlayerOne = current_user_id == game["uid1"]
