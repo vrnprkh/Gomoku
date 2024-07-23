@@ -16,6 +16,7 @@ function Header() {
         <Link to="/"><button>Play</button></Link>
         <Link to="/about"><button>About</button></Link>
         <Link to="/lobbies"><button>Lobbies</button></Link>
+        <Link to="/self-lobbies"><button>Self Lobbies</button></Link>
         <Link to="/players"><button>Players</button></Link>
         <Link to="/friends"><button>Friends</button></Link>
         <Link to="/account"><button>Account</button></Link>
