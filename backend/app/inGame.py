@@ -65,13 +65,13 @@ def poll_turn():
             conn.close()
             return jsonify(), 500
         if game["uid2"] == None:
-            return jsonify({"turn" : False})
+            return jsonify({"turn" : False, "started" : False, "moves" : []})
         
         
         isPlayerOne = current_user_id == game["uid1"]
 
         queryMoves = """
-        SELECT move_number
+        SELECT *
         FROM DetailedMoves
         WHERE gid = %s
         """
@@ -82,7 +82,12 @@ def poll_turn():
         conn.close()
 
 
-        return jsonify({"turn" : bool((len(moves) % 2) ==  (not isPlayerOne))})
+        return jsonify({"turn" : bool((len(moves) % 2) ==  (not isPlayerOne)), 
+                        "started" : True,
+                        "moves" : moves
+                        })
     except Exception as e:
         logger.error(f"Error fetching turn: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch friend turn'}), 500
+
+
