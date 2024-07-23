@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import DetailedMoves from './components/DetailedMoves';
 import SelfLobbies from './components/SelfLobbies';
+import Game from './components/Game';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/viewgame/:gid" element={<DetailedMoves />} />
+          <Route path="/game/:gid" element={<Game />} />
           <Route path="/self-lobbies" element={<SelfLobbies />}/>
         </Routes>
       </div>

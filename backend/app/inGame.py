@@ -49,15 +49,15 @@ def poll_turn():
         gid = request.args.get('gid')
 
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor(dictionary=True, buffered=True)
 
         queryGame = """
         Select *
         FROM Games g
-        WHERE g.uid1 = %s or g.uid2 = %s
+        WHERE g.gid = %s
         """
 
-        cursor.execute(queryGame, [current_user_id, current_user_id])
+        cursor.execute(queryGame, [gid])
         game = cursor.fetchone()
         if game == None:
             # user is not in this game
@@ -70,10 +70,9 @@ def poll_turn():
 
         queryMoves = """
         SELECT move_number
-        FROM DetailedMoves dm
+        FROM DetailedMoves
         WHERE gid = %s
         """
-
 
         cursor.execute(queryMoves, [gid])
         moves = cursor.fetchall()
