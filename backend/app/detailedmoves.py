@@ -47,7 +47,7 @@ def join_lobby():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # Update the lobby to set uid2 and close it
+        # Get detailed move info given gid
         query = """
         SELECT move_number, coordinateX, coordinateY
         FROM DetailedMoves
