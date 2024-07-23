@@ -53,6 +53,27 @@ function Lobbies(){
         }
     };
 
+    const createLobby = async () => {
+        try {
+            const token = localStorage.getItem('token'); 
+            console.log("Token:", token);  
+    
+            const response = await axios.post('http://127.0.0.1:5000/api/create_lobby', 
+                { },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            console.log("Create lobby response:", response.data);
+            fetchLobbies(); // Refresh lobbies after creating lobby
+        } catch (error) {
+            console.error('Error creating lobby:', error);
+        }
+    }
+
     const filterLobbies = () => {
         if (search) {
             const filtered = lobbies.filter(lobby =>
@@ -76,6 +97,9 @@ function Lobbies(){
             <button onClick={() => setShowFriendsOnly(!showFriendsOnly)}>
                 {showFriendsOnly ? 'Show All Lobbies' : 'Show Friends Lobbies'}
             </button>
+
+            <button onClick={() => createLobby()}>Create Lobby</button>
+
             <table>
                 <thead>
                     <tr>

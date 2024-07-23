@@ -133,3 +133,41 @@ def join_lobby():
         logger.error(f"Error joining lobby: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to join lobby'}), 500
 
+@lobbies_bp.route('/create_lobby', methods=['POST'])
+@jwt_required()
+def create_lobby():
+    try:
+        current_user_id = get_jwt_identity()
+
+        logger.info(f"Creating a new lobby")
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Generate new gid
+        getMaxGIDQuery = """
+        SELECT MAX(gid)
+        FROM Games
+        """
+        cursor.execute(getMaxGIDQuery)
+        newGID = cursor.fetchone()[0] + 1
+        
+        # Create new game (a new row in the Lobbies table will automatically be created with triggers)
+        createLobbyQuery = """
+        INSERT INTO Games(gid, uid1, uid2, final_game_state, result, start_time)
+        VALUES(%s, %s, NULL, NULL, NULL, NULL);
+        """
+        cursor.execute(createLobbyQuery, (newGID, current_user_id))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+
+        logger.debug(f"Successfully created new lobby (gid: {newGID})")
+        return jsonify(newGID)
+    
+    except Exception as e:
+        logger.error(f"Error creating a new lobby: {str(e)}", exc_info=True)
+        return jsonify({'message': 'Failed to create a new lobby'}), 500
+    
+
