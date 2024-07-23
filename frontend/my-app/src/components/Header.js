@@ -1,7 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
   return (
     <header className="header">
       <span className="title">Gomoku</span>
@@ -12,6 +19,8 @@ function Header() {
         <Link to="/players"><button>Players</button></Link>
         <Link to="/friends"><button>Friends</button></Link>
         <Link to="/account"><button>Account</button></Link>
+        
+        {localStorage.getItem("token") && <button onClick={handleLogout}>Logout</button>}
       </div>
     </header>
   );
