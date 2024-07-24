@@ -20,7 +20,7 @@ function App() {
       <div>
         <Header />
         <Routes>
-          <Route path="/" element={<Gameboard />} />
+          <Route path="/" element={<About />} />
           <Route path="/about" element={<About />} />
           <Route path="/players" element={<Players />} />
           <Route path="/friends" element={<Friends />} />

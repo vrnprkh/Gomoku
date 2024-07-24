@@ -13,7 +13,6 @@ function Header() {
     <header className="header">
       <span className="title">Gomoku</span>
       <div className="buttons">
-        <Link to="/"><button>Play</button></Link>
         <Link to="/about"><button>About</button></Link>
         <Link to="/lobbies"><button>Lobbies</button></Link>
         <Link to="/self-lobbies"><button>Self Lobbies</button></Link>

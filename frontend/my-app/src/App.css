@@ -5,7 +5,6 @@
   padding: 20px;
   font-family: 'Arial', sans-serif;
   position: relative; /* Needed for absolute positioning of game-info */
-  height: 60vh; /* Optionally ensure the game uses the full viewport height */
 }
 
 
