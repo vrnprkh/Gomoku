@@ -24,7 +24,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-bottom: 10px;
   width: 100%; /* Full width of the game info container */
-  text-align: center; /* Center text inside these divs */
+  text-align: left; /* Center text inside these divs */
 }
 
 .player-symbol {

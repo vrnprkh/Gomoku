@@ -27,13 +27,10 @@ const Game = () => {
     const [isPlayerTurn, setIsPlayerTurn] = useState(false);
     const [board, setBoard] = useState(Array(15).fill().map(() => Array(15).fill(null)));
     const [gameOver, setGameOver] = useState(false);
+    const [players, setPlayers] = useState([null, null]);
+    const [turn, setTurn] = useState(0);
 
-    const [currentPlayer, setCurrentPlayer] = useState('player1');
-
-    const players = {
-        player1: '⚪',
-        player2: '⚫'
-    };
+    const pSymbol = ['⚪', '⚫'];
 
     const fetchTurn = async () => {
         try {
@@ -54,14 +51,16 @@ const Game = () => {
             setStarted(response.data["started"]);
             setIsPlayerTurn(response.data["turn"]);
             setGameOver(response.data["gameOver"]);
+            setPlayers([response.data["username1"], response.data["username2"]]);
             
             // draw updated board
             let newBoard = Array(15).fill().map(() => Array(15).fill(null));
             let moves = response.data["moves"];
+            setTurn(moves.length%2);
             for (let i = 0; i < moves.length; i++) {
                 let x = moves[i]["coordinateX"];
                 let y = moves[i]["coordinateY"];
-                newBoard[y][x] = (i%2 == 0) ? players["player1"] : players["player2"];
+                newBoard[y][x] = (i%2 == 0) ? pSymbol[0] : pSymbol[1];
             }
             setBoard(newBoard);
 
@@ -112,12 +111,6 @@ const Game = () => {
                 <div>
                     <h4>GID: {gid}</h4>
                     
-                    { gameOver || (
-                        <div>
-                            <h4>Game Started: {started ? "True" : "False"}</h4>
-                            <h4>Turn: {isPlayerTurn ? "Your" : "Opponent's"} turn</h4>
-                        </div>
-                    ) }
 
                     <div className="game-container">
                         <div className="game-board">
@@ -133,14 +126,15 @@ const Game = () => {
                         </div>
                         <div className="game-info">
                             <div className="current-turn">
-                            Current turn: <span className="player-symbol">{players[currentPlayer]}</span> ({currentPlayer})
+                                {started ? (
+                                    <div>Turn: <span className="player-symbol">{pSymbol[turn]}</span> {players[turn]} ({isPlayerTurn ? "You" : "Opponent"})</div>
+                                ) : (
+                                    <div>Waiting for players...</div>
+                                )}
                             </div>
                             <div className="player-list">
-                            {Object.keys(players).map(player => (
-                                <div key={player} className={`player ${currentPlayer === player ? 'active' : ''}`}>
-                                <span className="player-symbol">{players[player]}</span> {player}
-                                </div>
-                            ))}
+                                <div><span className="player-symbol">{pSymbol[0]}</span>{players[0]}</div>
+                                <div><span className="player-symbol">{pSymbol[1]}</span>{players[1]}</div>
                             </div>
                         </div>
                     </div>
@@ -150,7 +144,6 @@ const Game = () => {
                             <h2>Game Over!</h2>
                         </center>
                     ) }
-
                 </div>
                 ) : (
                     <div>

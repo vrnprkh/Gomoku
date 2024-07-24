@@ -148,15 +148,35 @@ def poll_turn():
 
         cursor.execute(queryGame, [gid, current_user_id, current_user_id])
         game = cursor.fetchone()
+
+        queryPlayer = """
+        SELECT uid, username
+        FROM Users
+        WHERE uid = %s
+        """
+        cursor.execute(queryPlayer, [game["uid1"]])
+        p1 = cursor.fetchone()
+
         if game == None:
             # user is not in this game
             cursor.close()
             conn.close()
             return jsonify(), 500
         if game["uid2"] == None:
-            return jsonify({"turn" : False, "started" : False, "moves" : [], "gameOver" : False})
+            return jsonify({
+                "turn" : False,
+                "started" : False,
+                "moves" : [],
+                "gameOver" : False,
+                "uid1" : p1["uid"],
+                "username1" : p1["username"],
+                "uid2" : None,
+                "username2" : None
+            })
         
-        
+        cursor.execute(queryPlayer, [game["uid2"]])
+        p2 = cursor.fetchone()
+
         isPlayerOne = current_user_id == game["uid1"]
         logger.info(game["uid1"])
         logger.info(current_user_id)
@@ -190,11 +210,16 @@ def poll_turn():
 
         cursor.close()
         conn.close()
-        return jsonify({"turn" : turn , 
-                        "started" : True,
-                        "moves" : moves,
-                        "gameOver" : gameOver,
-                        })
+        return jsonify({
+            "turn" : turn , 
+            "started" : True,
+            "moves" : moves,
+            "gameOver" : gameOver,
+            "uid1" : p1["uid"],
+            "username1" : p1["username"],
+            "uid2" : p2["uid"],
+            "username2" : p2["username"],
+        })
     
 
 
