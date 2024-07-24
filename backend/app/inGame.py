@@ -216,17 +216,17 @@ def make_move():
 
         queryGame = """
         Select *
-        FROM Games g
-        WHERE g.gid = %s
+        FROM Games g, Lobbies l
+        WHERE g.gid = %s and l.gid = %s
         """
 
-        cursor.execute(queryGame, [gid])
+        cursor.execute(queryGame, [gid, gid])
         game = cursor.fetchone()
         if game == None:
             # user is not in this game
             cursor.close()
             conn.close()
-            return jsonify(), 500
+            return jsonify("Game Error"), 500
         if game["uid2"] == None:
             cursor.close()
             conn.close()

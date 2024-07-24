@@ -5,7 +5,7 @@
   padding: 20px;
   font-family: 'Arial', sans-serif;
   position: relative; /* Needed for absolute positioning of game-info */
-  height: 100vh; /* Optionally ensure the game uses the full viewport height */
+  height: 60vh; /* Optionally ensure the game uses the full viewport height */
 }
 
 
@@ -41,7 +41,7 @@
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(10, 50px); /* Creates a grid of 10 columns */
+  grid-template-columns: repeat(15, 50px); /* Creates a grid of 10 columns */
   grid-gap: 5px; /* Spacing between cells */
   background-color: #C4A484; /* Light grey background */
   padding: 20px; /* Add padding around the game board */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './../App.css';
 
 const GomokuBoard = ({ state }) => {
     const size = 15;
@@ -24,10 +25,15 @@ const Game = () => {
     const { gid } = useParams();
     const [started, setStarted] = useState(false);
     const [isPlayerTurn, setIsPlayerTurn] = useState(false);
-    const [boardState, setBoardState] = useState('.'.repeat(15*15))
+    const [board, setBoard] = useState(Array(15).fill().map(() => Array(15).fill(null)));
+    const [gameOver, setGameOver] = useState(false);
 
-    const [x, setX] = useState(0);
-    const [y, setY] = useState(0);
+    const [currentPlayer, setCurrentPlayer] = useState('player1');
+
+    const players = {
+        player1: '⚪',
+        player2: '⚫'
+    };
 
     const fetchTurn = async () => {
         try {
@@ -47,15 +53,17 @@ const Game = () => {
 
             setStarted(response.data["started"]);
             setIsPlayerTurn(response.data["turn"]);
+            setGameOver(response.data["gameOver"]);
             
             // draw updated board
-            let newBoard = '.'.repeat(15*15);
+            let newBoard = Array(15).fill().map(() => Array(15).fill(null));
             let moves = response.data["moves"];
             for (let i = 0; i < moves.length; i++) {
-                let index = moves[i]["coordinateY"] * 15 + moves[i]["coordinateX"];
-                newBoard = newBoard.substring(0, index) + (i%2 == 0 ? 'X' : 'O') + newBoard.substring(index+1);
+                let x = moves[i]["coordinateX"];
+                let y = moves[i]["coordinateY"];
+                newBoard[y][x] = (i%2 == 0) ? players["player1"] : players["player2"];
             }
-            setBoardState(newBoard)
+            setBoard(newBoard);
 
         } catch (error) {
             console.error('Error polling for turn:', error);
@@ -76,9 +84,7 @@ const Game = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-
-    const makeMove = async () => {
-
+    const makeMove = async (x, y) => {
         try {
             const token = localStorage.getItem('token'); 
             console.log("Token:", token);  
@@ -92,14 +98,12 @@ const Game = () => {
                 }
             );
 
-            console.log("Make move:", response.data);
+            fetchTurn();
 
         } catch (error) {
             console.error('Error making move:', error);
         }
-
     }
-
 
     return (
         <div>
@@ -107,33 +111,51 @@ const Game = () => {
             {gid != null ? (
                 <div>
                     <h4>GID: {gid}</h4>
-                    <h4>Game Started: {started ? "True" : "False"}</h4>
-                    <h4>Turn: {isPlayerTurn ? "Your" : "Opponent's"} turn</h4>
-
-                    <GomokuBoard state={boardState} />
-
                     
-
-                    <form onSubmit={makeMove}>
+                    { gameOver || (
                         <div>
-                            <label>
-                                X:
-                                <input type="number" value={x} onChange={(e) => setX(e.target.value)} />
-                            </label>
+                            <h4>Game Started: {started ? "True" : "False"}</h4>
+                            <h4>Turn: {isPlayerTurn ? "Your" : "Opponent's"} turn</h4>
                         </div>
-                        <div>
-                            <label>
-                                Y:
-                                <input type="number" value={y} onChange={(e) => setY(e.target.value)} />
-                            </label>
-                        </div>
-                        <button type="submit">Submit</button>
-                    </form>
+                    ) }
 
+                    <div className="game-container">
+                        <div className="game-board">
+                            {board.map((row, index) => (
+                            <div key={index} className="game-row">
+                                {row.map((cell, cellIndex) => (
+                                <div key={cellIndex} className="cell" onClick={() => makeMove(cellIndex, index)}>
+                                    {cell || ''}
+                                </div>
+                                ))}
+                            </div>
+                            ))}
+                        </div>
+                        <div className="game-info">
+                            <div className="current-turn">
+                            Current turn: <span className="player-symbol">{players[currentPlayer]}</span> ({currentPlayer})
+                            </div>
+                            <div className="player-list">
+                            {Object.keys(players).map(player => (
+                                <div key={player} className={`player ${currentPlayer === player ? 'active' : ''}`}>
+                                <span className="player-symbol">{players[player]}</span> {player}
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    { !gameOver || (
+                        <center>
+                            <h2>Game Over!</h2>
+                        </center>
+                    ) }
 
                 </div>
                 ) : (
-                    <div>Loading</div>
+                    <div>
+                        <p>Loading...</p>
+                    </div>
                 )}
         </div>
     );
