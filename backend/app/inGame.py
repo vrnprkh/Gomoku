@@ -42,6 +42,13 @@ class Gomoku:
             return True
         return False
     
+    def checkDraw(self):
+        for layer in self.board:
+            for e in layer:
+                if e == PieceState.EMPTY:
+                    return False
+        return True
+    
     def checkGameState(self):
         # y, x offsets
         offsets = [(0,1), (1,0), (1, 1), (1, -1)]
@@ -136,10 +143,10 @@ def poll_turn():
         queryGame = """
         Select *
         FROM Games g
-        WHERE g.gid = %s
+        WHERE g.gid = %s and (g.uid1 = %s or g.uid2 = %s)
         """
 
-        cursor.execute(queryGame, [gid])
+        cursor.execute(queryGame, [gid, current_user_id, current_user_id])
         game = cursor.fetchone()
         if game == None:
             # user is not in this game
@@ -151,7 +158,9 @@ def poll_turn():
         
         
         isPlayerOne = current_user_id == game["uid1"]
-
+        logger.info(game["uid1"])
+        logger.info(current_user_id)
+        logger.info(isPlayerOne)
         queryMoves = """
         SELECT gid, move_number, coordinateX, coordinateY
         FROM DetailedMoves
@@ -160,15 +169,35 @@ def poll_turn():
 
         cursor.execute(queryMoves, [gid])
         moves = cursor.fetchall()
+      
+        turn = (len(moves) % 2) == (not isPlayerOne)
+
+        # if the game is over, it is no longer this players turn
+        queryGameOver = """
+        SELECT *
+        FROM Lobbies
+        WHERE gid = %s
+        """
+
+
+        cursor.execute(queryGameOver, [gid])
+
+        gameOver = False
+        if cursor.fetchone() == None:
+            turn = False
+            gameOver = True
+
+
         cursor.close()
         conn.close()
-
-
-        return jsonify({"turn" : bool((len(moves) % 2) ==  (not isPlayerOne)), 
+        return jsonify({"turn" : turn , 
                         "started" : True,
                         "moves" : moves,
-                        "gameOver" : False,
+                        "gameOver" : gameOver,
                         })
+    
+
+
     except Exception as e:
         logger.error(f"Error fetching turn: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to fetch friend turn'}), 500
@@ -223,7 +252,7 @@ def make_move():
         if not (len(moves) % 2) ==  (not isPlayerOne):
             cursor.close()
             conn.close()
-            return jsonify({"res" : "NOT YOUR TURN >:("}), 500
+            return jsonify({"res" : "NOT YOUR TURN >:("}), 502
 
 
         # we now can make the move
@@ -245,13 +274,55 @@ def make_move():
 
         cursor.execute(queryAddMove, [gid, len(moves), x, y])
         conn.commit()
-        cursor.close()
-        conn.close()
+    
+
 
 
         gameState = b.checkGameState()
-        # TODO check gamestate and move game if finish
+        if gameState == None and not b.checkDraw():
+            # game not over
+            cursor.close()
+            conn.close()
 
+            return jsonify()
+        
+        # get string to push to db
+        drawStr = ""
+        for layer in b.board:
+            for e in layer:
+                if e == PieceState.BLACK:
+                    drawStr += "O"
+                elif e == PieceState.WHITE:
+                    drawStr += "X"
+                else:
+                    drawStr += '.'
+        winner = None
+        if gameState == PieceState.BLACK:
+            winner = 0
+        elif gameState == PieceState.WHITE:
+            winner = 1
+        else:
+            winner = 2
+
+        #insert here
+        updateGame = """
+        UPDATE games
+        SET final_game_state = %s,
+            result = %s
+        WHERE gid = %s;
+        """
+
+        cursor.execute(updateGame, [drawStr, winner, gid])
+
+        #remove lobby
+        removeLobby = """
+        DELETE FROM Lobbies
+        WHERE gid = %s
+        """
+        cursor.execute(removeLobby, [gid])
+        conn.commit()
+        cursor.close()
+        conn.close()
         return jsonify()
 
 
@@ -259,7 +330,7 @@ def make_move():
         
         
     except Exception as e:
-        logger.error(f"Error making turn: {str(e)}", exc_info=True)
+        logger.info(f"Error making turn: {str(e)}", exc_info=True)
         return jsonify({'message': 'Failed to make turn'}), 500
 
 
