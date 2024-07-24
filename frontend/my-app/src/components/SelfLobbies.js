@@ -45,8 +45,8 @@ function SelfLobbies(){
                     {lobbies.map((lobby) => (
                         <tr key={lobby.gid}>
                             <td>{lobby.gid}</td>
-                            <td>{lobby.uid1}</td>
-                            <td>{lobby.uid2}</td>
+                            <td>{lobby.username1}</td>
+                            <td>{lobby.username2}</td>
                             <td><button onClick={() => {goToGame(lobby.gid)}}>Rejoin Game</button></td>
                         </tr>
                     ))}
