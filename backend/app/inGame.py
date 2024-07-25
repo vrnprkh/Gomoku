@@ -207,7 +207,6 @@ def poll_turn():
             turn = False
             gameOver = True
 
-
         cursor.close()
         conn.close()
         return jsonify({
@@ -329,7 +328,7 @@ def make_move():
         else:
             winner = 2
 
-        #insert here
+        # insert here
         updateGame = """
         UPDATE games
         SET final_game_state = %s,
@@ -339,12 +338,70 @@ def make_move():
 
         cursor.execute(updateGame, [drawStr, winner, gid])
 
-        #remove lobby
+        # remove lobby
         removeLobby = """
         DELETE FROM Lobbies
         WHERE gid = %s
         """
         cursor.execute(removeLobby, [gid])
+
+        # create new user stats if not made already
+        checkStatsForUID = """
+        SELECT * FROM UserStats WHERE uid = %s
+        """
+        createUserStats = """
+        INSERT INTO UserStats(uid, elo, total_play_time, total_games_played, wins, losses, draws)
+        VALUES(%s, 0, 0, 0, 0, 0, 0)
+        """
+
+        cursor.execute(checkStatsForUID, [game["uid1"]])
+        if cursor.fetchone() == None:
+            cursor.execute(createUserStats, [game["uid1"]])
+
+        cursor.execute(checkStatsForUID, [game["uid2"]])
+        if cursor.fetchone() == None:
+            cursor.execute(createUserStats, [game["uid2"]])
+
+        # update player stats
+        updateStats = """
+        WITH PlayerGameData AS ( -- selects all finished games that the specific player has played
+            SELECT *
+            FROM Games
+            WHERE final_game_state IS NOT NULL AND (uid1 = %s OR uid2 = %s)
+        )
+        UPDATE UserStats
+        SET total_play_time = ( -- sums all moveTime deltas from each move for each game the user plays (will optimize this in the future)
+                SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(moveTime)))
+                FROM PlayerGameData
+                JOIN DetailedMoves USING(gid)
+            ),
+            total_games_played = (SELECT COUNT(*) FROM PlayerGameData),
+            wins = (
+                SELECT COUNT(*) FROM PlayerGameData
+                WHERE (uid1 = %s AND result = 0) OR (uid2 = %s AND result = 1)
+            ),
+            losses = (
+                SELECT COUNT(*) FROM PlayerGameData
+                WHERE (uid1 = %s AND result = 1) OR (uid2 = %s AND result = 0)
+            ),
+            draws = (
+                SELECT COUNT(*) FROM PlayerGameData
+                WHERE result = 2
+            )
+        WHERE uid = %s
+        """
+        cursor.execute(updateStats, [game["uid1"] for i in range(7)])
+        cursor.execute(updateStats, [game["uid2"] for i in range(7)])
+
+        # updates player elo
+        updateElo = """
+        UPDATE UserStats
+        SET elo = wins - losses  -- temp elo calculation: elo = # wins - # losses, will change in the future
+        WHERE uid = %s
+        """
+        cursor.execute(updateElo, [game["uid2"]])
+        cursor.execute(updateElo, [game["uid1"]])
+
         conn.commit()
         cursor.close()
         conn.close()
