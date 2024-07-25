@@ -3,24 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './../App.css';
 
-const GomokuBoard = ({ state }) => {
-    const size = 15;
-    const board = state.match(/.{1,15}/g).map((row, rowIndex) => (
-        <div className="gomoku-row" key={rowIndex}>
-            {row.split('').map((cell, colIndex) => (
-                <div
-                    className={`gomoku-cell ${cell === '⚫' ? 'white' : cell === '⚪' ? 'black' : ''}`}
-                    key={colIndex}
-                >
-                    {cell === '.' ? '' : cell === 'X' ? '⚫' : '⚪'}
-                </div>
-            ))}
-        </div>
-    ));
-
-    return <div className="gomoku-board">{board}</div>;
-};
-
 const Game = () => {
     const { gid } = useParams();
     const [started, setStarted] = useState(false);
