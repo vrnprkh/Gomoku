@@ -5,7 +5,6 @@
   padding: 20px;
   font-family: 'Arial', sans-serif;
   position: relative; /* Needed for absolute positioning of game-info */
-  height: 100vh; /* Optionally ensure the game uses the full viewport height */
 }
 
 
@@ -25,7 +24,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-bottom: 10px;
   width: 100%; /* Full width of the game info container */
-  text-align: center; /* Center text inside these divs */
+  text-align: left; /* Center text inside these divs */
 }
 
 .player-symbol {
@@ -41,7 +40,7 @@
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(10, 50px); /* Creates a grid of 10 columns */
+  grid-template-columns: repeat(15, 50px); /* Creates a grid of 10 columns */
   grid-gap: 5px; /* Spacing between cells */
   background-color: #C4A484; /* Light grey background */
   padding: 20px; /* Add padding around the game board */

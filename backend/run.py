@@ -8,6 +8,7 @@ from app.players import players_bp
 from app.friends import friends_bp
 from app.lobbies import lobbies_bp
 from app.detailedmoves import detailed_moves_bp
+from app.inGame import in_game_bp
 import logging
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,6 +24,7 @@ app.register_blueprint(players_bp, url_prefix='/api')
 app.register_blueprint(friends_bp, url_prefix='/api')
 app.register_blueprint(lobbies_bp, url_prefix='/api')
 app.register_blueprint(detailed_moves_bp, url_prefix='/api')
+app.register_blueprint(in_game_bp, url_prefix='/api')
 
 
 if __name__ == "__main__":

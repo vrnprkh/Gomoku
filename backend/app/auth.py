@@ -142,7 +142,7 @@ def get_user_data(user_id):
             FROM Games g
             JOIN Users u1 ON g.uid1 = u1.uid
             JOIN Users u2 ON g.uid2 = u2.uid
-            WHERE g.uid1 = %s OR g.uid2 = %s
+            WHERE (g.uid1 = %s OR g.uid2 = %s) AND (g.final_game_state IS NOT NULL)
             ORDER BY g.gid DESC LIMIT 10
         """, (current_user_id, current_user_id))
         match_history = cursor.fetchall()
@@ -153,7 +153,7 @@ def get_user_data(user_id):
             JOIN Games g ON p.gid = g.gid
             JOIN Users u1 ON g.uid1 = u1.uid
             JOIN Users u2 ON g.uid2 = u2.uid
-            WHERE p.uid = %s
+            WHERE p.uid = %s AND (g.final_game_state IS NOT NULL)
         """, (current_user_id,))
         favourite_games = cursor.fetchall()
 

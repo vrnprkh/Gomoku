@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SelfLobbies(){
     const [lobbies, setLobbies] = useState([]);
@@ -7,7 +8,7 @@ function SelfLobbies(){
     useEffect(() => {
         fetchLobbies();
     }, []);
-
+    const nav = useNavigate();
     const fetchLobbies = async () => {
         try {
             const token = localStorage.getItem('token'); 
@@ -25,6 +26,11 @@ function SelfLobbies(){
         }
     };
 
+    const goToGame = (gid) => {
+    
+        nav(`../game/${gid}`);
+    }
+
     return (
         <div>
             <table>
@@ -39,8 +45,9 @@ function SelfLobbies(){
                     {lobbies.map((lobby) => (
                         <tr key={lobby.gid}>
                             <td>{lobby.gid}</td>
-                            <td>{lobby.uid1}</td>
-                            <td>{lobby.uid2}</td>
+                            <td>{lobby.username1}</td>
+                            <td>{lobby.username2}</td>
+                            <td><button onClick={() => {goToGame(lobby.gid)}}>Rejoin Game</button></td>
                         </tr>
                     ))}
                 </tbody>

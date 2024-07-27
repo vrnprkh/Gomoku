@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Lobbies(){
@@ -6,6 +7,7 @@ function Lobbies(){
     const [search, setSearch] = useState('');
     const [filteredLobbies, setFilteredLobbies] = useState([]);
     const [showFriendsOnly, setShowFriendsOnly] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchLobbies();
@@ -46,8 +48,10 @@ function Lobbies(){
                     }
                 }
             );
+
             console.log("Join lobby response:", response.data);
-            fetchLobbies(); // Refresh lobbies after joining
+            navigate(`/game/${gid}`); // go to new game
+
         } catch (error) {
             console.error('Error joining lobby:', error);
         }
@@ -68,7 +72,8 @@ function Lobbies(){
             );
 
             console.log("Create lobby response:", response.data);
-            fetchLobbies(); // Refresh lobbies after creating lobby
+            navigate(`/game/${response.data}`); // go to new game
+
         } catch (error) {
             console.error('Error creating lobby:', error);
         }

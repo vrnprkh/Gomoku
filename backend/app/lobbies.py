@@ -85,9 +85,11 @@ def get_self_lobbies():
         cursor = conn.cursor(dictionary=True)
 
         query = """
-        SELECT l.gid, l.uid1, l.uid2
+        SELECT l.gid, l.uid1, l.uid2, u1.username AS username1, u2.username AS username2
         FROM Lobbies l
-        WHERE l.uid1 = %s OR l.uid2 = %s
+        JOIN Users u1 ON (l.uid1 = u1.uid)
+        JOIN Users u2 ON (l.uid2 = u2.uid)
+        WHERE (l.uid1 = %s OR l.uid2 = %s)
         """
         cursor.execute(query, [current_user_id, current_user_id])
 
